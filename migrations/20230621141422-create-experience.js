@@ -10,7 +10,13 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       user_id: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model:"Users",
+          key:"id",
+        },
+        onUpdate:"CASCADE",
+        onDelete:"CASCADE",
       },
       company: {
         type: Sequelize.STRING
@@ -25,7 +31,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       salary: {
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
       },
       start_date: {
         type: Sequelize.DATE

@@ -11,6 +11,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Type.hasMany(models.JobType,{foreignKey: "type_id"})
+      Type.belongsToMany(models.JobListing,{foreignKey: "type_id", through: models.JobType})
     }
   }
   Type.init({

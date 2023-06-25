@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Experience extends Model {
+  class CompanyProfile extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -11,44 +11,20 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Experience.belongsTo(models.User,{foreignKey: "user_id"})
+      CompanyProfile.hasMany(models.JobListing,{foreignKey: "company_id"})
+      CompanyProfile.hasMany(models.UserCompany,{foreignKey: "company_id"})
+      CompanyProfile.belongsToMany(models.User,{foreignKey: "company_id", through: models.UserCompany})
     }
   }
-  Experience.init({
-    user_id: DataTypes.INTEGER,
-    company: {
+  CompanyProfile.init({
+    name: {
       type: DataTypes.STRING,
       validate: {
         notEmpty: true,
       }
     },
-    department: {
+    field: {
       type: DataTypes.STRING,
-      validate: {
-        notEmpty: true,
-      }
-    },
-    position: {
-      type: DataTypes.STRING,
-      validate: {
-        notEmpty: true,
-      }
-    },
-    industry: {
-      type: DataTypes.STRING,
-      validate: {
-        notEmpty: true,
-      }
-    },
-    salary: DataTypes.INTEGER,
-    start_date: {
-      type: DataTypes.DATE,
-      validate: {
-        notEmpty: true,
-      }
-    },
-    end_date: {
-      type: DataTypes.DATE,
       validate: {
         notEmpty: true,
       }
@@ -59,12 +35,16 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: true,
       }
     },
-    country: DataTypes.STRING,
-    state: DataTypes.STRING,
-    city: DataTypes.STRING
+    location: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: true,
+      }
+    },
+    total_employee: DataTypes.INTEGER
   }, {
     sequelize,
-    modelName: 'Experience',
+    modelName: 'CompanyProfile',
   });
-  return Experience;
+  return CompanyProfile;
 };

@@ -2,7 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('user_companies', {
+    await queryInterface.createTable('UserProfiles', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -10,9 +10,24 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       user_id: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model:"Users",
+          key:"id",
+        },
+        onUpdate:"CASCADE",
+        onDelete:"CASCADE",
       },
-      company_id: {
+      resume: {
+        type: Sequelize.STRING
+      },
+      portofolio: {
+        type: Sequelize.STRING
+      },
+      about_me: {
+        type: Sequelize.STRING
+      },
+      salary_expectation: {
         type: Sequelize.INTEGER
       },
       createdAt: {
@@ -26,6 +41,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('user_companies');
+    await queryInterface.dropTable('UserProfiles');
   }
 };

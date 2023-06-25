@@ -2,26 +2,44 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Company_profiles', {
+    await queryInterface.createTable('JobListings', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      name: {
-        type: Sequelize.STRING
+      user_id: {
+        type: Sequelize.INTEGER,
+        references: {
+          model:"Users",
+          key:"id",
+        },
+        onUpdate:"CASCADE",
+        onDelete:"CASCADE",
       },
-      field: {
+      title: {
         type: Sequelize.STRING
       },
       description: {
         type: Sequelize.STRING
       },
+      company_id: {
+        type: Sequelize.INTEGER,
+        references: {
+          model:"CompanyProfiles",
+          key:"id",
+        },
+        onUpdate:"CASCADE",
+        onDelete:"CASCADE",
+      },
       location: {
         type: Sequelize.STRING
       },
-      total_employee: {
+      salary_start: {
+        type: Sequelize.INTEGER
+      },
+      salary_end: {
         type: Sequelize.INTEGER
       },
       createdAt: {
@@ -35,6 +53,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Company_profiles');
+    await queryInterface.dropTable('JobListings');
   }
 };

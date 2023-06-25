@@ -1,4 +1,5 @@
 'use strict';
+
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
@@ -23,9 +24,6 @@ module.exports = {
         type: Sequelize.STRING
       },
       phone_number: {
-        type: Sequelize.INTEGER
-      },
-      education: {
         type: Sequelize.STRING
       },
       birth_date: {
@@ -38,7 +36,8 @@ module.exports = {
         type: Sequelize.STRING
       },
       role: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        defaultValue: "user"
       },
       createdAt: {
         allowNull: false,

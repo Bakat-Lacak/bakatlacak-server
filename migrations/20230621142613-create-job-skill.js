@@ -10,10 +10,22 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       job_listing_id: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model:"JobListings",
+          key:"id",
+        },
+        onUpdate:"CASCADE",
+        onDelete:"CASCADE",
       },
       skill_id: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model:"Skills",
+          key:"id",
+        },
+        onUpdate:"CASCADE",
+        onDelete:"CASCADE",
       },
       createdAt: {
         allowNull: false,

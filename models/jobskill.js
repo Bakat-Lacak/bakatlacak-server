@@ -11,6 +11,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      JobSkill.belongsTo(models.Skill,{foreignKey: "skill_id"})
+      JobSkill.belongsTo(models.JobListing,{foreignKey: "job_listing_id"})
     }
   }
   JobSkill.init({

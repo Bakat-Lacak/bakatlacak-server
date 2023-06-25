@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Education extends Model {
+  class JobApplication extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -11,33 +11,24 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Education.belongsTo(models.User,{foreignKey: "user_id"})
+      JobApplication.belongsTo(models.User,{foreignKey: "user_id"})
+      JobApplication.belongsTo(models.JobListing,{foreignKey: "job_listing_id"})
     }
   }
-  Education.init({
+  JobApplication.init({
     user_id: DataTypes.INTEGER,
-    school_name: {
+    joblisting_id: DataTypes.INTEGER,
+    status: {
       type: DataTypes.STRING,
       validate: {
         notEmpty: true,
+        isIn: [['applied', 'onreview', 'accepted', 'rejected']]
       }
     },
-    start_date: {
-      type: DataTypes.DATE,
-      validate: {
-        notEmpty: true,
-      }
-    },
-    graduation_date: {
-      type: DataTypes.DATE,
-      validate: {
-        notEmpty: true,
-      }
-    },
-    major: DataTypes.STRING
+    resume: DataTypes.STRING
   }, {
     sequelize,
-    modelName: 'Education',
+    modelName: 'JobApplication',
   });
-  return Education;
+  return JobApplication;
 };
