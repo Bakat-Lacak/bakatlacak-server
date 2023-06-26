@@ -29,6 +29,31 @@ async function authentication(req, res, next) {
   }
 }
 
+const authorization = (roles) => {
+  return async (req, res, next) => {
+    try {
+      const authHeader = req.headers["authorization"];
+      const token = authHeader && authHeader.split(" ")[1];
+      if (!token) {
+        throw { name: "Unauthenticated" };
+      }
+
+      const data = verifyToken(token);
+
+      if (!roles.includes(data.role)) {
+        throw { name: "Forbidden" };
+      }
+
+      req.user = data;
+
+      next();
+    } catch (err) {
+      next(err);
+    }
+  };
+};
+
 module.exports = {
   authentication,
+  authorization,
 };
