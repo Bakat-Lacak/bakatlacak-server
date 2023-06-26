@@ -46,31 +46,28 @@ class UserController {
       }
       let accessToken;
       try {
+        accessToken = signToken({
+          email: user.email,
+          first_name: user.first_name,
+          last_name: user.last_name,
+          phone_number: user.phone_number,
+          role: user.role,
+        });
+      } catch (err) {
+        next(err);
+      }
 
-      accessToken = signToken({
+      res.status(200).json({
+        access_token: accessToken,
         email: user.email,
-        first_name: user.first_name,
-        last_name: user.last_name,
-        phone_number: user.phone_number,
         role: user.role,
       });
     } catch (err) {
       next(err);
     }
-      
-      res.status(200).json({
-        access_token: accessToken,
-        email: user.email,
-        role: user.role
-      })
-
-
-    } catch (err) {
-      next(err);
-    }
   }
 
-// AUTHENTICATED ROUTES
+  // AUTHENTICATED ROUTES
 
   static async getAllUser(req, res, next) {
     try {
@@ -78,11 +75,11 @@ class UserController {
       const offset = (page - 1) * limit;
       const users = await User.findAndCountAll({
         limit,
-        offset
+        offset,
       });
-      res.status(200).json(users)
-    } catch(err) {
-      next(err)
+      res.status(200).json(users);
+    } catch (err) {
+      next(err);
     }
   }
   static async getByID(req, res, next) {
@@ -111,12 +108,12 @@ class UserController {
         gender,
         role,
       } = req.body;
-      
+
       const user = await User.findByPk(userId);
       if (!user) {
         throw { name: "UserNotFound" };
       }
-      
+
       user.email = email;
       user.password = password;
       user.first_name = first_name;
@@ -125,19 +122,31 @@ class UserController {
       user.birth_date = birth_date;
       user.gender = gender;
       user.role = role;
-      
+
       await user.save();
-      
+
       res.status(200).json(user);
     } catch (err) {
       next(err);
     }
   }
-  
-  
+
+  static async delete(req, res, next) {
+    try {
+      const userId = req.params.id;
+      const user = await User.findByPk(userId);
+      if (!user) {
+        throw { name: "UserNotFound" };
+      }
+
+      await user.destroy();
+
+      res.status(200).json({ message: "User deleted" });
+    } catch (err) {
+      next(err);
+    }
+  }
 }
-
-
 
 
 module.exports = UserController;
