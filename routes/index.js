@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const authRouter = require('./auth')
 const userRouter = require('./user')
+const skillRouter = require('./skill')
 const { authentication } = require('../middlewares/auth')
 
 router.use('/api/auth', authRouter);

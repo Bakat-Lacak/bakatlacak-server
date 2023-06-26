@@ -44,13 +44,19 @@ class UserController {
       if (!comparePassword) {
         throw { name: "InvalidCredential" };
       }
-      const accessToken = signToken({
+      let accessToken;
+      try {
+
+      accessToken = signToken({
         email: user.email,
         first_name: user.first_name,
         last_name: user.last_name,
         phone_number: user.phone_number,
         role: user.role,
       });
+    } catch (err) {
+      next(err);
+    }
       
       res.status(200).json({
         access_token: accessToken,
@@ -68,12 +74,70 @@ class UserController {
 
   static async getAllUser(req, res, next) {
     try {
-      const users = await User.findAll()
+      const { page = 1, limit = 10 } = req.query;
+      const offset = (page - 1) * limit;
+      const users = await User.findAndCountAll({
+        limit,
+        offset
+      });
       res.status(200).json(users)
     } catch(err) {
       next(err)
     }
   }
+  static async getByID(req, res, next) {
+    try {
+      const userId = req.params.id;
+      const user = await User.findByPk(userId);
+      if (!user) {
+        throw { name: "UserNotFound" };
+      }
+      res.status(200).json(user);
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  static async update(req, res, next) {
+    try {
+      const userId = req.params.id;
+      const {
+        email,
+        password,
+        first_name,
+        last_name,
+        phone_number,
+        birth_date,
+        gender,
+        role,
+      } = req.body;
+      
+      const user = await User.findByPk(userId);
+      if (!user) {
+        throw { name: "UserNotFound" };
+      }
+      
+      user.email = email;
+      user.password = password;
+      user.first_name = first_name;
+      user.last_name = last_name;
+      user.phone_number = phone_number;
+      user.birth_date = birth_date;
+      user.gender = gender;
+      user.role = role;
+      
+      await user.save();
+      
+      res.status(200).json(user);
+    } catch (err) {
+      next(err);
+    }
+  }
+  
+  
 }
+
+
+
 
 module.exports = UserController;

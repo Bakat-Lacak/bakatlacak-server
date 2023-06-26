@@ -7,6 +7,8 @@ const morgan = require('morgan')
 const errorHandler = require('./middlewares/errorHandler')
 const router = require('./routes/index')
 
+
+
 app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))

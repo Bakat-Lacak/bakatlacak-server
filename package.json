@@ -1,5 +1,5 @@
 {
-  "scripts":{
+  "scripts": {
     "dev": "nodemon app.js"
   },
   "dependencies": {
@@ -14,5 +14,8 @@
     "pg": "^8.11.0",
     "sequelize": "^6.32.1",
     "sequelize-cli": "^6.6.1"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^8.0.2"
   }
 }
