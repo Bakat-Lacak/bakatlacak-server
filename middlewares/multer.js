@@ -1,23 +1,32 @@
 const multer = require('multer');
 const path = require('path');
 
-const portfolioStorage = multer.diskStorage({
+const documentsStorage = multer.diskStorage({
     destination: function(req, file, cb){
-        cb(null, path.join(__dirname, '../public/portfolio'));
+        cb(null, path.join(__dirname, '../public/documents'));
     },
     filename: function(req, file, cb){
-        cb(null, 'portfolio-' + Date.now() + path.extname(file.originalname));
+        if(file.fieldname === 'portofolio'){
+            cb(null, 'portofolio-' + Date.now() + path.extname(file.originalname));
+        } else if(file.fieldname === 'resume'){
+            cb(null, 'resume-' + Date.now() + path.extname(file.originalname));
+        } else {
+            cb(null, 'documents-' + Date.now() + path.extname(file.originalname));
+        }
     }
 });
 
-const porfolioFileFilter = multer({
-    storage: portfolioStorage,
+const documentsFileFilter = multer({
+    storage: documentsStorage,
     fileFilter: function(req, file, cb){
         const ext = path.extname(file.originalname);
         if(ext !== '.pdf'){
             return cb(new Error('Only pdf file is allowed'));
         }
         cb(null, true);
+    },
+    limits: {
+        fileSize: 1024 * 1024 * 5
     }
 });
 
@@ -38,13 +47,16 @@ const imageFileFilter = multer({
             return cb(new Error('Only jpg, jpeg, and png file is allowed'));
         }
         cb(null, true);
+    },
+    limits: {
+        fileSize: 1024 * 1024 * 2
     }
 });
 
-const portfolioUpload = multer({ storage: portfolioStorage, fileFilter: porfolioFileFilter });
+const documentsUpload = multer({ storage: documentsStorage, fileFilter: documentsFileFilter });
 const imageUpload = multer({ storage: imageStorage, fileFilter: imageFileFilter });
 
 module.exports = {
-    portfolioUpload,
+    documentsUpload,
     imageUpload
 };
