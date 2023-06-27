@@ -29,6 +29,23 @@ async function authentication(req, res, next) {
   }
 }
 
+const authorization = (roles) => {
+  return async (req, res, next) => {
+    try {
+      const { role } = req.loggedUser;
+
+      if (!roles.includes(role)) {
+        throw { name: "Forbidden" };
+      }
+
+      next();
+    } catch (err) {
+      next(err);
+    }
+  };
+};
+
 module.exports = {
   authentication,
+  authorization,
 };
