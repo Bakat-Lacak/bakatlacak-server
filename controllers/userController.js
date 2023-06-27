@@ -15,6 +15,7 @@ class UserController {
         gender,
         role,
       } = req.body;
+
       const user = await User.create({
         email,
         password,
@@ -26,7 +27,7 @@ class UserController {
         role,
       });
       res.status(201).json(user);
-      // console.log(user)
+      console.log(user)
       // console.log(err)
     } catch (err) {
       next(err);
@@ -84,7 +85,7 @@ class UserController {
   }
   static async getByID(req, res, next) {
     try {
-      const userId = req.params.id;
+      const userId = req.loggedInUser;
       const user = await User.findByPk(userId);
       if (!user) {
         throw { name: "UserNotFound" };
@@ -97,16 +98,10 @@ class UserController {
 
   static async update(req, res, next) {
     try {
-      const userId = req.params.id;
+      const userId = req.loggedInUser;
       const {
         email,
         password,
-        first_name,
-        last_name,
-        phone_number,
-        birth_date,
-        gender,
-        role,
       } = req.body;
 
       const user = await User.findByPk(userId);
@@ -133,7 +128,7 @@ class UserController {
 
   static async delete(req, res, next) {
     try {
-      const userId = req.params.id;
+      const userId = req.loggedInUser;
       const user = await User.findByPk(userId);
       if (!user) {
         throw { name: "UserNotFound" };
