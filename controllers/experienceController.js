@@ -3,7 +3,12 @@ const { Experience } = require("../models");
 class ExperienceController {
   static getAll = async (req, res, next) => {
     try {
-      const data = await Experience.findAll({});
+      const { id } = req.loggedUser;
+      const data = await Experience.findAll({
+        where: {
+          user_id: id,
+        },
+      });
       res.status(200).json(data);
     } catch (err) {
       next(err);
@@ -32,17 +37,18 @@ class ExperienceController {
   };
 
   static create = async (req, res, next) => {
-    const { user_id, department, position, industri, salary, end_date, description, country } = req.body;
+    const { id } = req.loggedUser;
+    const { department, position, industry, salary, end_date, description, country } = req.body;
     try {
       const data = await Experience.create({
-        user_id,
-        department,
-        position,
-        industri,
-        salary,
-        end_date,
-        description,
-        country,
+        user_id: id,
+        department: "Fullstack",
+        position: "FrontEnd",
+        industry: "Consultant",
+        salary: 70000,
+        end_date: Date(),
+        description: "test",
+        country: "Indonesia",
       });
       res.status(200).json(data);
     } catch (err) {
@@ -63,9 +69,11 @@ class ExperienceController {
           user_id: user_id,
           department: department,
           position: position,
-          industri: industri,
+          industry: industri,
           salary: salary,
           end_date: end_date,
+          createdAt: new Date(),
+          updatedAt: new Date(),
           description: description,
           country: country,
         },
@@ -84,6 +92,8 @@ class ExperienceController {
           industry: data.industri,
           salary: data.salary,
           end_date: data.end_date,
+          createdAt: Date(),
+          updatedAt: Date(),
           description: data.description,
           country: data.country,
         },

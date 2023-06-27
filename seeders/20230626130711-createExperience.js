@@ -14,31 +14,34 @@ module.exports = {
         user_id: user.id,
         department: "IT",
         position: "Fullstack",
-        industri: "Consultan",
+        industry: "Consultan",
         salary: 70000,
         end_date: new Date(),
         description: "Node Js",
         country: "Jakarta",
+        createdAt: new Date(),
+        updatedAt: new Date(),
       },
       {
         user_id: user.id,
         department: "TU",
         position: "BackEnd",
-        industri: "Consultan",
+        industry: "Consultan",
         salary: 70000,
         end_date: new Date(),
         description: "Node Js",
         country: "Jakarta",
+        createdAt: new Date(),
+        updatedAt: new Date(),
       },
     ]);
   },
 
   async down(queryInterface, Sequelize) {
-    /**
-     * Add commands to revert seed here.
-     *
-     * Example:
-     * await queryInterface.bulkDelete('People', null, {});
-     */
+    await queryInterface.bulkDelete("Experiences", null, {
+      restartIdentity: true,
+      truncate: true,
+      cascade: true,
+    });
   },
 };

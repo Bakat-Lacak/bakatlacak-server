@@ -25,6 +25,27 @@ class EducationController {
     }
   };
 
+  static getById = async (req, res, next) => {
+    try {
+      const educationId = req.params.id;
+      const education = await Education.findByPk(educationId);
+      if (!education) {
+        throw { name: "ErrorNotFound" };
+      }
+
+      const users = await education.getUsers();
+
+      const data = {
+        education: education,
+        users: users,
+      };
+
+      res.status(200).json(data);
+    } catch (err) {
+      next(err);
+    }
+  };
+
   static update = async (req, res, next) => {
     const { id } = req.params;
     const { user_id, start_date, graduation_date, major } = req.body;
