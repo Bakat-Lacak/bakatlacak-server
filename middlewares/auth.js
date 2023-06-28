@@ -16,6 +16,7 @@ async function authentication(req, res, next) {
       throw { name: "UserNotFound" };
     } else {
       req.loggedUser = {
+        id: foundUser.id,
         email: foundUser.email,
         first_name: foundUser.first_name,
         last_name: foundUser.last_name,
