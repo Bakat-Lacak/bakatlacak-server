@@ -237,7 +237,7 @@ class JobListingController {
   }
 
   static async updateJobListing(req, res, next) {
-    const t = sequelize.transaction()
+    const t = await sequelize.transaction()
 
     try {
       const {
