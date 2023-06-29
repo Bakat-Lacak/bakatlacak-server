@@ -78,7 +78,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       validate: {
         notEmpty: false,
-        isIn: [['user', 'recruiter', 'admin']]
+        isIn: [['user', 'admin', 'recruiter']]
       }
     },
   }, {
