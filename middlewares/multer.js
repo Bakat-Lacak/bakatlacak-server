@@ -16,20 +16,6 @@ const documentsStorage = multer.diskStorage({
     }
 });
 
-const documentsFileFilter = multer({
-    storage: documentsStorage,
-    fileFilter: function(req, file, cb){
-        const ext = path.extname(file.originalname);
-        if(ext !== '.pdf'){
-            return cb(new Error('Only pdf file is allowed'));
-        }
-        cb(null, true);
-    },
-    limits: {
-        fileSize: 1024 * 1024 * 5
-    }
-});
-
 const imageStorage = multer.diskStorage({
     destination: function(req, file, cb){
         cb(null, path.join(__dirname, '../public/images'));
@@ -39,22 +25,8 @@ const imageStorage = multer.diskStorage({
     }
 });
 
-const imageFileFilter = multer({
-    storage: imageStorage,
-    fileFilter: function(req, file, cb){
-        const ext = path.extname(file.originalname);
-        if(ext !== '.jpg' && ext !== '.jpeg' && ext !== '.png'){
-            return cb(new Error('Only jpg, jpeg, and png file is allowed'));
-        }
-        cb(null, true);
-    },
-    limits: {
-        fileSize: 1024 * 1024 * 2
-    }
-});
-
-const documentsUpload = multer({ storage: documentsStorage, fileFilter: documentsFileFilter });
-const imageUpload = multer({ storage: imageStorage, fileFilter: imageFileFilter });
+const documentsUpload = multer({ storage: documentsStorage });
+const imageUpload = multer({ storage: imageStorage });
 
 module.exports = {
     documentsUpload,
