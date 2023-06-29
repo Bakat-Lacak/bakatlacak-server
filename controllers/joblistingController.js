@@ -8,16 +8,21 @@ class JobListingController {
       const where = {};
 
       //JOIN TABLES
+      let joinJobSkill = {
+        model: JobSkill,
+        required: true
+      }
+
       let joinSkill = {
         model: Skill,
         required: true
       }
-
+      
       let joinCompanyProfile = {
         model: CompanyProfile,
         required: true
       }
-
+      
       let joinType = {
         model: Type,
         required: true
@@ -28,21 +33,27 @@ class JobListingController {
         where.company_id = company_id
       }
 
-      ///Filter by search query
+      //Filter by search query
       if (q) {
 
         where[Op.or] = [
           {
             title: {
               [Op.iLike]: `%${q}%`
-            },
+            }
+          },
+          {
             description: {
               [Op.iLike]: `%${q}%`
-            },
+            }
+          },
+          {
             "$CompanyProfile.name$": {
               [Op.iLike]: `%${q}%`
-            },
-            "$Skill.name$": {
+            }
+          },
+          {
+            "$Skills.name$": {
               [Op.iLike]: `%${q}%`
             }
           }
@@ -82,6 +93,7 @@ class JobListingController {
       }
 
       const include = [
+        joinJobSkill,
         joinCompanyProfile,
         joinType,
         joinSkill
@@ -97,6 +109,7 @@ class JobListingController {
       const jobListing = await JobListing.findAndCountAll({
         where,
         include,
+        subQuery: false,
         distinct : true,
         limit: itemsPerPage,
         offset,
@@ -224,6 +237,8 @@ class JobListingController {
   }
 
   static async updateJobListing(req, res, next) {
+    const t = sequelize.transaction()
+
     try {
       const {
         title,
@@ -232,12 +247,15 @@ class JobListingController {
         location,
         salary_start,
         salary_end,
+        type_attributes,
+        skill_attributes
       } = req.body;
 
       const { id } = req.loggedUser;
       const idParam = req.params.id;
 
       const jobListing = await JobListing.findByPk(idParam);
+
       if (!jobListing) {
         throw { name: "ErrorNotFound" };
       }
@@ -254,10 +272,46 @@ class JobListingController {
         location,
         salary_start,
         salary_end,
-      });
+      }, {transaction: t});
 
+      if(type_attributes) {
+        await JobType.destroy({
+          where: {
+            job_listing_id: jobListing.id
+          }
+        }, {transaction: t})
+
+        for(let i = 0; i < type_attributes.length; i++) {
+          const currentType = type_attributes[i]
+
+          await JobType.create({
+            job_listing_id: jobListing.id,
+            type_id: currentType.id
+          }, {transaction: t})
+        }
+      }
+
+      if(skill_attributes) {
+        await JobSkill.destroy({
+          where: {
+            job_listing_id: jobListing.id
+          }
+        }, {transaction: t})
+
+        for(let i = 0; i < skill_attributes.length; i++) {
+          const currentSkill = skill_attributes[i]
+
+          await JobSkill.create({
+            job_listing_id: jobListing.id,
+            skill_id: currentSkill.id
+          }, {transaction: t})
+        }
+      }
+
+      await t.commit()
       res.status(201).json(jobListing);
     } catch (err) {
+      await t.rollback()
       next(err);
     }
   }
