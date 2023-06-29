@@ -12,7 +12,6 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       Skill.hasMany(models.JobSkill,{foreignKey: "skill_id"})
-      Skill.belongsTo(models.User,{foreignKey: "user_id"})
       Skill.belongsToMany(models.JobListing,{foreignKey: "skill_id", through: models.JobSkill})
       Skill.belongsToMany(models.User,{foreignKey: "skill_id", through: models.UserSkill})
 
@@ -31,8 +30,7 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: true,
         isIn: [['beginner', 'advance', 'expert']]
       }
-    },
-    user_id: DataTypes.INTEGER
+    }
   }, {
     sequelize,
     modelName: 'Skill',
