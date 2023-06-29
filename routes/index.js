@@ -5,6 +5,7 @@ const userRouter = require("./user");
 const jobListingRouter = require("./joblisting");
 const companyProfileRouter = require("./companyprofile")
 const { authentication, authorization } = require("../middlewares/auth");
+const UserController = require("../controllers/userController")
 
 router.use("/api/auth", authRouter);
 router.use(authentication); // BELOW HERE AUTHENTICATED ROUTES
