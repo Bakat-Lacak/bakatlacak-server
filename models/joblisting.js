@@ -24,6 +24,10 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "job_listing_id",
         through: models.JobType,
       });
+      JobListing.belongsToMany(models.Skill, {
+        foreignKey: "job_listing_id",
+        through: models.JobSkill
+      })
     }
   }
   JobListing.init(

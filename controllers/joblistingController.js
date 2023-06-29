@@ -1,29 +1,91 @@
-const { JobListing, CompanyProfile } = require("../models");
+const { JobListing, CompanyProfile, JobSkill, Type, JobType, Skill, User, sequelize } = require("../models");
 const { Op } = require("sequelize");
 
 class JobListingController {
   static async getJobListing(req, res, next) {
     try {
-      const { location, title, company_name, page, limit } = req.query;
+      const { locations, company_id, salary_start, page, limit, q, skill_ids, type_ids } = req.query;
       const where = {};
 
-      if (location) {
-        where.location = { [Op.like]: `%${location}%` };
+      //JOIN TABLES
+      let joinSkill = {
+        model: Skill,
+        required: true
       }
 
-      if (title) {
-        where.title = { [Op.like]: `%${title}%` };
+      let joinCompanyProfile = {
+        model: CompanyProfile,
+        required: true
       }
 
-      if (company_name) {
-        const targetName = await CompanyProfile.findOne({
-          where: { name: company_name },
-        });
+      let joinType = {
+        model: Type,
+        required: true
+      }
 
-        if (targetName) {
-          where.company_id = targetName.id;
+      //Filter by company
+      if (company_id) {
+        where.company_id = company_id
+      }
+
+      ///Filter by search query
+      if (q) {
+
+        where[Op.or] = [
+          {
+            title: {
+              [Op.iLike]: `%${q}%`
+            },
+            description: {
+              [Op.iLike]: `%${q}%`
+            },
+            "$CompanyProfile.name$": {
+              [Op.iLike]: `%${q}%`
+            },
+            "$Skill.name$": {
+              [Op.iLike]: `%${q}%`
+            }
+          }
+        ]
+      }
+
+      // Filter by skills
+      if (skill_ids) {
+        joinSkill.where = {
+          id: {
+            [Op.in]: skill_ids
+          }
         }
       }
+
+      // Filter by types
+      if (type_ids) {
+        joinType.where = {
+          id: {
+            [Op.in]: type_ids
+          }
+        }
+      }
+
+      // Filter by salary start
+      if(salary_start) {
+        where.salary_start = {
+          [Op.gte]: +salary_start
+        }
+      }
+
+      // Filter by location
+      if (locations) {
+        where.location = {
+          [Op.in]: locations
+        }
+      }
+
+      const include = [
+        joinCompanyProfile,
+        joinType,
+        joinSkill
+      ]
 
       const DEFAULT_PAGE = 1;
       const DEFAULT_LIMIT = 10;
@@ -31,33 +93,16 @@ class JobListingController {
       const currentPage = parseInt(page, 10) || DEFAULT_PAGE;
       const itemsPerPage = parseInt(limit, 10) || DEFAULT_LIMIT;
       const offset = (currentPage - 1) * itemsPerPage;
-
+    
       const jobListing = await JobListing.findAndCountAll({
-        include: [
-          {
-            model: CompanyProfile,
-            attributes: [
-              "id",
-              "name",
-              "field",
-              "description",
-              "location",
-              "total_employee",
-            ],
-          },
-        ],
-        attributes: [
-          "id",
-          "user_id",
-          "title",
-          "description",
-          "location",
-          "salary_start",
-          "salary_end",
-        ],
         where,
+        include,
+        distinct : true,
         limit: itemsPerPage,
         offset,
+        order: [
+          ['createdAt', "DESC"]
+        ]
       });
 
       const totalPages = Math.ceil(jobListing.count / itemsPerPage);
@@ -77,17 +122,21 @@ class JobListingController {
     try {
       const id = req.params.id;
 
-      const jobListing = await JobListing.findByPk(id, {
-        attributes: [
-          "id",
-          "user_id",
-          "title",
-          "description",
-          "location",
-          "salary_start",
-          "salary_end",
-        ],
-      });
+      const jobListing = await JobListing.findOne({
+        where: { id },
+        include: [
+          {
+            model: Skill
+          },
+          {
+            model: Type
+          },
+          {
+            model: CompanyProfile,
+            include: {model: User}
+          }
+        ]
+      })
 
       if (!jobListing) {
         throw { name: "ErrorNotFound" };
@@ -100,6 +149,7 @@ class JobListingController {
   }
 
   static async createJobListing(req, res, next) {
+    const t = await sequelize.transaction()
     try {
       const {
         title,
@@ -108,6 +158,8 @@ class JobListingController {
         location,
         salary_start,
         salary_end,
+        skill_attributes,
+        type_attributes
       } = req.body;
 
       const { id } = req.loggedUser;
@@ -120,10 +172,53 @@ class JobListingController {
         location,
         salary_start,
         salary_end,
-      });
+      }, {transaction: t});
 
+
+      // Process Job Skills relation
+      for(let i = 0; i < skill_attributes.length; i++) {
+        const currentSkill = skill_attributes[i];
+
+        const foundSkill = await Skill.findOne({
+          where: {
+            id: currentSkill.id
+          }
+        })
+
+        if (!foundSkill) {
+          throw {name: "ErrorNotFound"}
+        }
+
+        await JobSkill.create({
+          job_listing_id: jobListing.id,
+          skill_id: foundSkill.id
+        },{transaction: t})
+      }
+
+      // Process Job Type relation
+      for(let i = 0; i < type_attributes.length; i++) {
+        const currentType = type_attributes[i];
+
+        const foundType = await Type.findOne({
+          where: {
+            id: currentType.id
+          }
+        })
+
+        if (!foundType) {
+          throw {name: "ErrorNotFound"}
+        }
+
+        await JobType.create({
+          type_id: foundType.id,
+          job_listing_id: jobListing.id
+        },{transaction: t})
+      }
+      
+      await t.commit()
       res.status(201).json(jobListing);
     } catch (err) {
+      await t.rollback()
       next(err);
     }
   }
