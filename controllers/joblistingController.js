@@ -4,7 +4,7 @@ const { Op } = require("sequelize");
 class JobListingController {
   static async getJobListing(req, res, next) {
     try {
-      const { location, title, page, limit } = req.query;
+      const { location, title, company_name, page, limit } = req.query;
       const where = {};
 
       if (location) {
@@ -13,6 +13,16 @@ class JobListingController {
 
       if (title) {
         where.title = { [Op.like]: `%${title}%` };
+      }
+
+      if (company_name) {
+        const targetName = await CompanyProfile.findOne({
+          where: { name: company_name },
+        });
+
+        if (targetName) {
+          where.company_id = targetName.id;
+        }
       }
 
       const DEFAULT_PAGE = 1;

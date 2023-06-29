@@ -35,6 +35,10 @@ const authorization = (roles) => {
     try {
       const { role } = req.loggedUser;
 
+      if (!role) {
+        throw { name: "Unauthenticated" };
+      }
+
       if (!roles.includes(role)) {
         throw { name: "Forbidden" };
       }
