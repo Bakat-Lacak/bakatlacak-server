@@ -71,7 +71,7 @@ class CompanyProfileController {
         throw { name: "ErrorNotFound" };
       }
       await company.destroy();
-      res.status(200).json({ message: `${company.name} Deleted` });
+      res.status(200).json({ message: `${company.name} has been deleted` });
     } catch (error) {
       console.error(err);
       next(err);

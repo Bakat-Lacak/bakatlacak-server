@@ -8,6 +8,8 @@ function errorHandler(err, req, res, next) {
         res.status(401).json({message: "Unauthenticated"})
     } else if (err.name === "UserNotFound") {
         res.status(404).json({message: "User not found"})
+    } else if (err.name === "Forbidden") {
+        res.status(403).json({ message: "Forbidden access this route" });
     }
     
     
