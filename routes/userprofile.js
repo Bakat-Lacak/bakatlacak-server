@@ -18,6 +18,6 @@ router.put("/:user_id", documentsUpload.fields([
   { name: 'portofolio', maxCount: 1 }
 ]), UserProfileController.updateUserProfile, errorHandler);
 
-router.delete("/:id", UserProfileController.deleteUserProfile, errorHandler);
+router.delete("/:user_id", UserProfileController.deleteUserProfile, errorHandler);
 
 module.exports = router;

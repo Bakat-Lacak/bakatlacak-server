@@ -5,20 +5,20 @@ const salt = bcrypt.genSaltSync(10);
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.bulkInsert("Users", [
-      {
-        email: "pertamax42a@gmail.com",
-        password: bcrypt.hashSync("pertamax", salt),
-        first_name: "pertama",
-        last_name: "kedua",
-        phone_number: "08991212121",
-        birth_date: new Date("2005-08-09"),
-        gender: "male",
-        role: "user",
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-    ]);
+    // await queryInterface.bulkInsert("Users", [
+    //   {
+    //     email: "pertamax@gmail.com",
+    //     password: bcrypt.hashSync("pertamax", salt),
+    //     first_name: "pertama",
+    //     last_name: "kedua",
+    //     phone_number: "08991212121",
+    //     birth_date: new Date("2005-08-09"),
+    //     gender: "male",
+    //     role: "user",
+    //     createdAt: new Date(),
+    //     updatedAt: new Date(),
+    //   },
+    // ]);
     /**
      * Add seed commands here.
      *
