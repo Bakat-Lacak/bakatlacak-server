@@ -15,7 +15,6 @@ class UserController {
         gender,
         role,
       } = req.body;
-
       const user = await User.create({
         email,
         password,
@@ -27,7 +26,7 @@ class UserController {
         role,
       });
       res.status(201).json(user);
-      console.log(user)
+      // console.log(user)
       // console.log(err)
     } catch (err) {
       next(err);
@@ -45,47 +44,39 @@ class UserController {
       if (!comparePassword) {
         throw { name: "InvalidCredential" };
       }
-      let accessToken;
-      try {
-        accessToken = signToken({
-          email: user.email,
-          first_name: user.first_name,
-          last_name: user.last_name,
-          phone_number: user.phone_number,
-          role: user.role,
-        });
-      } catch (err) {
-        next(err);
-      }
-
+      const accessToken = signToken({
+        email: user.email,
+        first_name: user.first_name,
+        last_name: user.last_name,
+        phone_number: user.phone_number,
+        role: user.role,
+      });
+      
       res.status(200).json({
         access_token: accessToken,
         email: user.email,
-        role: user.role,
-      });
+        role: user.role
+      })
+
+
     } catch (err) {
       next(err);
     }
   }
 
-  // AUTHENTICATED ROUTES
+// AUTHENTICATED ROUTES
 
   static async getAllUser(req, res, next) {
     try {
-      const { page = 1, limit = 10 } = req.query;
-      const offset = (page - 1) * limit;
-      const users = await User.findAndCountAll({
-        limit,
-        offset,
-      });
-      res.status(200).json(users);
-    } catch (err) {
-      next(err);
+      const users = await User.findAll()
+      res.status(200).json(users)
+    } catch(err) {
+      next(err)
     }
   }
   static async getByID(req, res, next) {
     try {
-      const userId = req.loggedInUser;
+      const userId = req.params.id;
       const user = await User.findByPk(userId);
       if (!user) {
         throw { name: "UserNotFound" };
@@ -98,12 +89,18 @@ class UserController {
 
   static async update(req, res, next) {
     try {
-      const userId = req.loggedInUser;
+      const userId = req.params.id;
       const {
         email,
         password,
+        first_name,
+        last_name,
+        phone_number,
+        birth_date,
+        gender,
+        role
       } = req.body;
-
+      
       const user = await User.findByPk(userId);
       if (!user) {
         throw { name: "UserNotFound" };
@@ -128,7 +125,7 @@ class UserController {
 
   static async delete(req, res, next) {
     try {
-      const userId = req.loggedInUser;
+      const userId = req.params.id;
       const user = await User.findByPk(userId);
       if (!user) {
         throw { name: "UserNotFound" };
