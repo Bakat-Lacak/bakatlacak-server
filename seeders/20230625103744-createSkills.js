@@ -1,41 +1,100 @@
 'use strict';
-const { User } = require("../models");
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-    const user = await User.findOne({where: {
-      email: "pertamax@gmail.com"
-    }})
     await queryInterface.bulkInsert('Skills',[
       {
         name: 'PostgreSQL',
         level: 'beginner',
-        user_id: user.id,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        name: 'PostgreSQL',
+        level: 'advance',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        name: 'PostgreSQL',
+        level: 'expert',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        name: 'CSS',
+        level: 'beginner',
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
         name: 'CSS',
         level: 'advance',
-        user_id: user.id,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        name: 'CSS',
+        level: 'expert',
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
         name: 'HTML',
         level: 'beginner',
-        user_id: user.id,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        name: 'HTML',
+        level: 'advance',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        name: 'HTML',
+        level: 'expert',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        name: 'React',
+        level: 'beginner',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        name: 'React',
+        level: 'advance',
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
         name: 'React',
         level: 'expert',
-        user_id: user.id,
         createdAt: new Date(),
         updatedAt: new Date()
-      }
+      },
+      {
+        name: 'Communication',
+        level: 'beginner',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        name: 'Communication',
+        level: 'advance',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        name: 'Communication',
+        level: 'expert',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+
     ])
     /**
      * Add seed commands here.
