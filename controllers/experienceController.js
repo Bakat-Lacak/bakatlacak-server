@@ -1,4 +1,4 @@
-const { Experience } = require("../models");
+const { Experience, User } = require("../models");
 
 class ExperienceController {
   static getAll = async (req, res, next) => {
@@ -18,7 +18,15 @@ class ExperienceController {
   static getById = async (req, res, next) => {
     try {
       const experienceId = req.params.id;
-      const experience = await Experience.findByPk(experienceId);
+      const experience = await Experience.findOne({
+        where: {
+          id: experienceId,
+        },
+        include: {
+          model: User,
+        },
+      });
+
       if (!experience) {
         throw { name: "ErrorNotFound" };
       }

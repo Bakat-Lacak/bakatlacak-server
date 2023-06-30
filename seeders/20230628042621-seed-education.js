@@ -9,7 +9,7 @@ module.exports = {
       },
     });
 
-    await queryInterface.bulkInsert("Educations", [
+    await queryInterface.bulkInsert("Education", [
       {
         id: "4",
         user_id: "10",
@@ -34,7 +34,7 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.bulkDelete("Educations", null, {
+    await queryInterface.bulkDelete("Education", null, {
       restartIdentity: true,
       truncate: true,
       cascade: true,
