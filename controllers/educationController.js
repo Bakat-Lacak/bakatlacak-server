@@ -12,9 +12,10 @@ class EducationController {
 
   static create = async (req, res, next) => {
     const { id } = req.loggedUser;
-    const { start_date, graduation_date, major } = req.body;
+    const { start_date, graduation_date, major, school_name } = req.body;
     try {
-      const data = await Experience.create({
+      const data = await Education.create({
+        school_name,
         user_id: id,
         start_date,
         graduation_date,
