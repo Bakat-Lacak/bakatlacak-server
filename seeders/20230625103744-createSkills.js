@@ -1,9 +1,11 @@
 'use strict';
 
+const { User } = require("../models")
+
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-    await queryInterface.bulkInsert('Skills',[
+    let skills = await queryInterface.bulkInsert('Skills',[
       {
         name: 'PostgreSQL',
         level: 'beginner',
@@ -95,7 +97,24 @@ module.exports = {
         updatedAt: new Date()
       },
 
-    ])
+    ], {returning: true})
+
+    skills = [skills[1],skills[3],skills[8],skills[9],skills[14]]
+
+    const userAccount = await User.findOne({where: {
+      email: "user@mail.com"
+    }})
+
+    const userSkillsRecord = skills.map((skill) => (
+      {
+        user_id: userAccount.id,
+        skill_id: skill.id,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      }
+    ))
+
+    await queryInterface.bulkInsert('UserSkills', userSkillsRecord)
     /**
      * Add seed commands here.
      *
@@ -109,6 +128,7 @@ module.exports = {
 
   async down (queryInterface, Sequelize) {
     await queryInterface.bulkDelete('Skills', null, {});
+    await queryInterface.bulkDelete('UserSkills', null, {});
     /**
      * Add commands to revert seed here.
      *

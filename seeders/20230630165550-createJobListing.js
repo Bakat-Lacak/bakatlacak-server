@@ -1,6 +1,6 @@
 'use strict';
 
-const { CompanyProfile } = require("../models")
+const { CompanyProfile, JobListing, Type } = require("../models")
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
@@ -18,7 +18,7 @@ module.exports = {
       name: "HACKED"
     }})
     
-    await queryInterface.bulkInsert('JobListings', [
+    let jobs = await queryInterface.bulkInsert('JobListings', [
       {
         title: "Full-stack Web Developer",
         description: "Menguasai front-end dan back-end dengan baik",
@@ -108,8 +108,11 @@ module.exports = {
         salary_end: 9000000,
         createdAt: new Date(),
         updatedAt: new Date()
-      },
-    ])
+      }
+    ], {returning: true})
+
+    jobs = [jobs[0],jobs[1],jobs[2]]
+
     /**
      * Add seed commands here.
      *
