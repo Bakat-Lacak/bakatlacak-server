@@ -57,8 +57,8 @@ class ExperienceController {
   };
 
   static update = async (req, res, next) => {
-    const { id } = req.params;
-    const { user_id, department, position, industri, salary, end_date, description, country } = req.body;
+    const { id } = req.loggedUser;
+    const { department, position, industri, salary, end_date, description, country } = req.body;
     try {
       const data = await Experience.findByPk(id);
       if (!data) {
@@ -66,7 +66,7 @@ class ExperienceController {
       }
       const [numOfRowsAffected, [updatedData]] = await Experience.update(
         {
-          user_id: user_id,
+          user_id: id,
           department: department,
           position: position,
           industry: industri,
