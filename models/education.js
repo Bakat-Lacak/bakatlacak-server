@@ -9,26 +9,14 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Education.belongsTo(models.User, { foreignKey: "user_id" });
+      Education.belongsToMany(models.User, { foreignKey: "education_id", through: models.UserEducation });
+      Education.hasMany(models.UserEducation, { foreignKey: "education_id" });
     }
   }
   Education.init(
     {
-      user_id: DataTypes.INTEGER,
       school_name: {
         type: DataTypes.STRING,
-        validate: {
-          notEmpty: true,
-        },
-      },
-      start_date: {
-        type: DataTypes.DATE,
-        validate: {
-          notEmpty: true,
-        },
-      },
-      graduation_date: {
-        type: DataTypes.DATE,
         validate: {
           notEmpty: true,
         },
