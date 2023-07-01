@@ -4,6 +4,7 @@ const authRouter = require("./auth");
 const userRouter = require("./user");
 const jobListingRouter = require("./joblisting");
 const companyProfileRouter = require("./companyprofile")
+const skillRouter = require("./skill");
 const { authentication, authorization } = require("../middlewares/auth");
 const UserController = require("../controllers/userController")
 
@@ -14,5 +15,6 @@ router.use("/api/job_listing", jobListingRouter);
 // router.use(authorization(["admin", "user", "recruiter"])); // BELOW HERE AUTHORIZATION ROUTES
 router.use("/api/users", userRouter);
 router.use("/api/companyProfile", companyProfileRouter);
+router.use("/api/skills", skillRouter);
 
 module.exports = router;

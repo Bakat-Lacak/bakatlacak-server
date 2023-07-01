@@ -1,4 +1,4 @@
-const { Skill } = require("../models");
+const { Skill, UserSkill } = require("../models");
 
 class SkillController {
 
@@ -25,15 +25,48 @@ class SkillController {
     }
   };
 
+  static async addSkill(req, res, next) {
+    try {
+      const { id } = req.loggedUser;
+      const { skill_id } = req.body;
+
+      const skill = await Skill.findOne(
+        {
+          where: {
+            id: skill_id
+          }
+        });
+
+        if (!skill) {
+          throw { name: "ErrorNotFound" }
+        }
+
+        await UserSkill.create({
+          user_id: id,
+          skill_id
+        });
+
+        res.status(200).json({ message: "Skill added successfully" })
+    } catch (err) {
+      next(err);
+    }
+  };
+
   static async createSkill(req, res, next) {
-    const { name, level, user_id } = req.body;
+    const { id } = req.loggedUser;
+    const { name, level } = req.body;
 
     try {
       const skill = await Skill.create({
         name,
         level,
-        user_id,
       });
+
+      await UserSkill.create({
+        user_id: id,
+        skill_id
+      });
+
       res.status(200).json(skill);
     } catch (err) {
       next(err);
@@ -42,7 +75,7 @@ class SkillController {
 
   static async updateSkill(req, res, next) {
     const { id } = req.params;
-    const { name, level, user_id } = req.body;
+    const { name, level } = req.body;
 
     try {
       const skill = await Skill.findByPk(id)
@@ -54,12 +87,12 @@ class SkillController {
         {
           name,
           level,
-          user_id,
         },
         {
           where: {
             id
-          }
+          },
+          returning: true,
         }
       );
       res.status(200).json(updatedSkill);
