@@ -54,7 +54,7 @@ class SkillController {
 
   static async createSkill(req, res, next) {
     const { id } = req.loggedUser;
-    const { name, level } = req.body;
+    const { name, level, skill_id } = req.body;
 
     try {
       const skill = await Skill.create({
