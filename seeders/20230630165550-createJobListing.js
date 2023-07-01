@@ -18,7 +18,7 @@ module.exports = {
       name: "HACKED"
     }})
     
-    let jobs = await queryInterface.bulkInsert('JobListings', [
+    const jobs = await queryInterface.bulkInsert('JobListings', [
       {
         title: "Full-stack Web Developer",
         description: "Menguasai front-end dan back-end dengan baik",
@@ -110,8 +110,44 @@ module.exports = {
         updatedAt: new Date()
       }
     ], {returning: true})
+    
+    const types = await Type.findAll();
+    const fullTime = types[0]
+    const partTime = types[1]
+    const intern = types[2]
+    const freelance = types[3]
 
-    jobs = [jobs[0],jobs[1],jobs[2]]
+    let fullTimeJobs = [jobs[0], jobs[1], jobs[2]]
+
+    let partTimeJobs = [jobs[3], jobs[4], jobs[5]]
+
+    let freelanceJobs = [jobs[6], jobs[7], jobs[8]]
+
+    const fullTimeTypes = fullTimeJobs.map((job) => ({
+      type_id: fullTime.id,
+      job_listing_id: job.id,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    }))
+
+    const partTimeTypes = partTimeJobs.map((job) => ({
+      type_id: partTime.id,
+      job_listing_id: job.id,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    }))
+
+    const freelanceTypes = freelanceJobs.map((job) => ({
+      type_id: freelance.id,
+      job_listing_id: job.id,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    }))
+    
+    const joinJobTypes = [...fullTimeTypes,...partTimeTypes,...freelanceTypes]
+
+    await queryInterface.bulkInsert("JobTypes", joinJobTypes, {})
+
 
     /**
      * Add seed commands here.
@@ -126,6 +162,7 @@ module.exports = {
 
   async down (queryInterface, Sequelize) {
     await queryInterface.bulkDelete('JobListings', null, {})
+    await queryInterface.bulkDelete('JobTypes', null, {})
     /**
      * Add commands to revert seed here.
      *
