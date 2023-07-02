@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
       User.hasMany(models.JobApplication, { foreignKey: "user_id" });
       User.hasOne(models.UserProfile, { foreignKey: "user_id" });
       User.belongsToMany(models.JobListing, { foreignKey: "user_id", through: models.JobApplication });
-      User.belongsToMany(models.Education, { foreignkey: "user_id", through: models.UserEducation });
+      User.belongsToMany(models.Education, { foreignKey: "user_id", through: models.UserEducation });
       User.belongsToMany(models.Skill, { foreignKey: "user_id", through: models.UserSkill });
       User.hasMany(models.UserCompany, { foreignKey: "user_id" });
       User.belongsToMany(models.CompanyProfile, { foreignKey: "user_id", through: models.UserCompany });

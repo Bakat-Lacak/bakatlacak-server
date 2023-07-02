@@ -9,9 +9,9 @@ module.exports = {
      * Example:
      * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
      */
-    await queryInterface.removeColumn("Educations", "user_id", {});
-    await queryInterface.removeColumn("Educations", "start_date", {});
-    await queryInterface.removeColumn("Educations", "graduation_date", {});
+    await queryInterface.removeColumn("Education", "user_id", {});
+    await queryInterface.removeColumn("Education", "start_date", {});
+    await queryInterface.removeColumn("Education", "graduation_date", {});
   },
 
   async down(queryInterface, Sequelize) {
@@ -21,8 +21,8 @@ module.exports = {
      * Example:
      * await queryInterface.dropTable('users');
      */
-    await queryInterface.addColumn("Educations", "user_id", { type: Sequelize.INTEGER });
-    await queryInterface.addColumn("Educations", "start_date", { type: Sequelize.DATE });
-    await queryInterface.addColumn("Educations", "graduation_date", { type: Sequelize.DATE });
+    await queryInterface.addColumn("Education", "user_id", { type: Sequelize.INTEGER });
+    await queryInterface.addColumn("Education", "start_date", { type: Sequelize.DATE });
+    await queryInterface.addColumn("Education", "graduation_date", { type: Sequelize.DATE });
   },
 };
