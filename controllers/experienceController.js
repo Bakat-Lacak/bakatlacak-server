@@ -23,26 +23,20 @@ class ExperienceController {
           id: experienceId,
         },
         include: {
-          model: User,
-        },
+          model: User
+        }
       });
 
       if (!experience) {
         throw { name: "ErrorNotFound" };
       }
 
-      const users = await experience.getUsers();
-
-      const data = {
-        experience: experience,
-        users: users,
-      };
-
-      res.status(200).json(data);
+      res.status(200).json(experience);
     } catch (err) {
       next(err);
     }
   };
+ 
 
   static create = async (req, res, next) => {
     const { id } = req.loggedUser;
@@ -58,7 +52,7 @@ class ExperienceController {
         description: "test",
         country: "Indonesia",
       });
-      res.status(200).json(data);
+      res.status(201).json(data);
     } catch (err) {
       next(err);
     }

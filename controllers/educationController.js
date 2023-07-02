@@ -1,10 +1,16 @@
-const { Education } = require("../models");
+const { Education, UserEducation, sequelize, User } = require("../models");
 
 class EducationController {
   static getAll = async (req, res, next) => {
     try {
-      const data = await Education.findAll({});
-      res.status(200).json(data);
+     const {id} = req.loggedUser
+      const data = await Education.findAll({
+        include: {
+          model: UserEducation
+        }
+      });
+
+      res.status(200).json(data)
     } catch (err) {
       next(err);
     }
@@ -13,16 +19,25 @@ class EducationController {
   static create = async (req, res, next) => {
     const { id } = req.loggedUser;
     const { start_date, graduation_date, major, school_name } = req.body;
+    const t = await sequelize.transaction();
     try {
-      const data = await Education.create({
+
+      const education = await Education.create({
         school_name,
-        user_id: id,
+        major,
+      }, {transaction: t})
+
+      await UserEducation.create({
         start_date,
         graduation_date,
-        major,
-      });
-      res.status(200).json(data);
+        education_id: education.id,
+        user_id: id
+      }, {transaction: t})
+
+     await t.commit();
+     res.status(201).json(education);
     } catch (err) {
+      await t.rollback();
       next(err);
     }
   };
@@ -30,55 +45,62 @@ class EducationController {
   static getById = async (req, res, next) => {
     try {
       const educationId = req.params.id;
-      const education = await Education.findByPk(educationId);
+      const education = await Education.findOne({
+        where: {
+          id: educationId
+        },
+        include: {
+          model: User
+        }
+      })
+
       if (!education) {
         throw { name: "ErrorNotFound" };
       }
 
-      const users = await education.getUsers();
-
-      const data = {
-        education: education,
-        users: users,
-      };
-
-      res.status(200).json(data);
+      res.status(200).json(education);
     } catch (err) {
       next(err);
     }
   };
 
   static update = async (req, res, next) => {
-    const { id } = req.params;
-    const { user_id, start_date, graduation_date, major } = req.body;
+    const idParams = req.params.id
+    const {id} = re.loggedUser
+    const { school_name, start_date, graduation_date, major } = req.body;
+    const t = await sequelize.transaction();
     try {
-      const data = await Education.findByPk(id);
-      if (!data) throw { name: "ErrorNotFound" };
-      const [numOfRowsAffected, [updatedData]] = await Education.update(
-        {
-          user_id: user_id,
-          start_date: start_date,
-          graduation_date: graduation_date,
-          major: major,
-        },
-        {
+     const foundEducation = await Education.findOne({
+      where: {
+        id: idParams
+      }
+     })
+
+    if(!foundEducation) throw { name: "ErrorNotFound"} 
+     
+      await foundEducation.update ({
+        school_name: school_name || foundEducation.school_name,
+        major: major || foundEducation.major
+      }, {transaction: t})
+    
+      if(!start_date || graduation_date){
+
+        const foundUserEducation = await UserEducation.findOne({
           where: {
-            id,
-          },
-          returning: true,
-        }
-      );
-      res.status(200).json({
-        previous: {
-          user_id: data.user_id,
-          start_date: data.start_date,
-          graduation_date: data.graduation_date,
-          major: data.major,
-        },
-        current: updatedData,
-        dataUpdated: numOfRowsAffected,
-      });
+            user_id: id,
+            education_id: foundEducation.id
+          }
+        })
+
+        await foundUserEducation.update({
+          start_date: start_date || foundUserEducation.start_date,
+          graduation_date: graduation_date || foundUserEducation.graduation_date
+        }, {transaction: t})
+      }
+      await t.commit();
+      res.status(201).json({message: "Updated Education Successfully"});
     } catch (err) {
+      await t.rollback();
       next(err);
     }
   };
@@ -86,14 +108,19 @@ class EducationController {
   static delete = async (req, res, next) => {
     const { id } = req.params;
     try {
-      const data = await Education.findByPk(id);
-      if (!data) throw { name: "ErrorNotFound" };
+      const experience = await Education.findByPk(id);
+
+      if (!education) {
+        return res.status(404).json({ message: "Not Found" });
+      }
+
       await Education.destroy({
         where: {
-          id,
+          id: education.id,
         },
       });
-      res.status(200).json({ message: `${data.name} Deleted` });
+
+      res.status(200).json({ message: "Deleted Successfully" });
     } catch (err) {
       next(err);
     }
