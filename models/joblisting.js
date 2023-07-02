@@ -32,7 +32,6 @@ module.exports = (sequelize, DataTypes) => {
   }
   JobListing.init(
     {
-      user_id: DataTypes.INTEGER,
       title: {
         type: DataTypes.STRING,
         validate: {
