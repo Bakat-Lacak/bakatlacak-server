@@ -1,34 +1,36 @@
 'use strict';
 
-const { User } = require("../models")
+const { CompanyProfile, User } = require("../models")
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-    const userAccount = await User.findOne({where: {
-      email: "user@mail.com"
-    }})
-    
-    const recruiterAccount = await User.findOne({where: {
+    const recruiterAccount1 = await User.findOne({where: {
       email: "recruiter@mail.com"
     }})
 
-    await queryInterface.bulkInsert('UserProfiles', [
+    const companyAccount1 = await CompanyProfile.findOne({where: {
+      name: "TOKODEPIA"
+    }})
+
+    const recruiterAccount2 = await User.findOne({where: {
+      email: "admin@mail.com"
+    }})
+
+    const companyAccount2 = await CompanyProfile.findOne({where: {
+      name: "HACKED"
+    }})
+
+    await queryInterface.bulkInsert('UserCompanies', [
       {
-        user_id: userAccount.id,
-        resume: 'link:resume',
-        portofolio: 'link:portofolio',
-        about_me: "Im the next full-stack web developer",
-        salary_expectation: 8000000,
+        user_id: recruiterAccount1.id,
+        company_id: companyAccount1.id,
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
-        user_id: recruiterAccount.id,
-        resume: 'link:resume',
-        portofolio: 'link:portofolio',
-        about_me: "Im the next project manager",
-        salary_expectation: 8000000,
+        user_id: recruiterAccount2.id,
+        company_id: companyAccount2.id,
         createdAt: new Date(),
         updatedAt: new Date()
       }
@@ -47,7 +49,7 @@ module.exports = {
   },
 
   async down (queryInterface, Sequelize) {
-    await queryInterface.bulkDelete('UserProfiles', null, {});
+    await queryInterface.bulkDelete('UserCompanies', null, {})
     /**
      * Add commands to revert seed here.
      *

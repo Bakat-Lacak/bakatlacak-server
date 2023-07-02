@@ -7,18 +7,42 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.bulkInsert("Users", [
       {
-        email: "pertamax@gmail.com",
-        password: bcrypt.hashSync("pertamax", salt),
-        first_name: "pertama",
-        last_name: "kedua",
-        phone_number: "08991212121",
+        email: 'user@mail.com',
+        password: bcrypt.hashSync("user",salt),
+        first_name: 'user',
+        last_name: 'pertama',
+        phone_number: '08991212121',
         birth_date: new Date("2005-08-09"),
         gender: "male",
         role: "user",
         createdAt: new Date(),
-        updatedAt: new Date(),
+        updatedAt: new Date()
       },
-    ]);
+      {
+        email: 'recruiter@mail.com',
+        password: bcrypt.hashSync("recruiter",salt),
+        first_name: 'recruiter',
+        last_name: 'pertama',
+        phone_number: '08991212121',
+        birth_date: new Date("2005-08-09"),
+        gender: 'male',
+        role: 'recruiter',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        email: 'admin@mail.com',
+        password: bcrypt.hashSync("admin",salt),
+        first_name: 'admin',
+        last_name: 'kedua',
+        phone_number: '08991212121',
+        birth_date: new Date("2005-08-09"),
+        gender: 'male',
+        role: 'admin',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      }
+    ])
     /**
      * Add seed commands here.
      *
