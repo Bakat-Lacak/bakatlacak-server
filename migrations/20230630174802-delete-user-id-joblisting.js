@@ -1,9 +1,9 @@
-"use strict";
+'use strict';
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up(queryInterface, Sequelize) {
-    await queryInterface.removeColumn("Skills", "user_id", {});
+  async up (queryInterface, Sequelize) {
+    await queryInterface.removeColumn('JobListings', 'user_id', {})
     /**
      * Add altering commands here.
      *
@@ -12,13 +12,13 @@ module.exports = {
      */
   },
 
-  async down(queryInterface, Sequelize) {
+  async down (queryInterface, Sequelize) {
+    await queryInterface.addColumn('JobListings', 'user_id', {type: Sequelize.INTEGER})
     /**
      * Add reverting commands here.
      *
      * Example:
      * await queryInterface.dropTable('users');
      */
-    await queryInterface.addColumn("Skills", "user_id", { type: Sequelize.INTEGER });
-  },
+  }
 };
