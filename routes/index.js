@@ -6,6 +6,7 @@ const jobListingRouter = require("./joblisting");
 const experienceRouter = require("./experience");
 const educationRouter = require("./education");
 const companyProfileRouter = require("./companyprofile");
+const typeRouter = require("./type");
 const { authentication, authorization } = require("../middlewares/auth");
 
 router.use("/api/auth", authRouter);
@@ -17,4 +18,5 @@ router.use("/api/users", userRouter);
 router.use("/api/companyProfile", companyProfileRouter);
 router.use("/api/experiences", experienceRouter);
 router.use("/api/educations", educationRouter);
+router.use("/api/types", typeRouter);
 module.exports = router;
