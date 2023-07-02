@@ -7,6 +7,7 @@ const experienceRouter = require("./experience");
 const educationRouter = require("./education");
 const companyProfileRouter = require("./companyprofile");
 const typeRouter = require("./type");
+const skillRouter = require("./skill");
 const { authentication, authorization } = require("../middlewares/auth");
 
 router.use("/api/auth", authRouter);
@@ -19,4 +20,5 @@ router.use("/api/companyProfile", companyProfileRouter);
 router.use("/api/experiences", experienceRouter);
 router.use("/api/educations", educationRouter);
 router.use("/api/types", typeRouter);
+router.use("/api/skills", skillRouter);
 module.exports = router;
