@@ -21,11 +21,17 @@ module.exports = {
       education_id: {
         type: Sequelize.INTEGER,
         references: {
-          model: "Educations",
+          model: "Education",
           key: "id",
         },
         onUpdate: "CASCADE",
         onDelete: "CASCADE",
+      },
+      start_date: {
+        type: Sequelize.DATE,
+      },
+      graduation_date: {
+        type: Sequelize.DATE,
       },
       createdAt: {
         allowNull: false,
