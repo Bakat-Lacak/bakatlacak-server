@@ -1,5 +1,5 @@
 "use strict";
-
+const {User} = require('../models')
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
@@ -11,7 +11,6 @@ module.exports = {
 
     await queryInterface.bulkInsert("Education", [
       {
-        id: "4",
         user_id: "10",
         school_name: "ITB",
         start_date: "10-08-2022",
@@ -21,12 +20,11 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        id: id,
-        user_id: user_id,
-        school_name: school_name,
-        start_date: start_date,
-        graduation_date: graduation_date,
-        major: major,
+        user_id: user.id,
+        school_name: "Binus",
+        start_date: "10-10-2021",
+        graduation_date: "2022",
+        major: "FSWD",
         createdAt: new Date(),
         updatedAt: new Date(),
       },
