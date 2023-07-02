@@ -3,30 +3,22 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    const user = await User.findOne({
-      where: {
-        email: "pertamax@gmail.com",
-      },
-    });
-
     await queryInterface.bulkInsert("Education", [
       {
-        id: "4",
-        user_id: "10",
         school_name: "ITB",
-        start_date: "10-08-2022",
-        graduation_date: "2021",
-        major: "Inggris",
+        description: "Institut Teknologi Bandung, Kami adalah kampus yang berada di Bandung",
         createdAt: new Date(),
         updatedAt: new Date(),
       },
       {
-        id: id,
-        user_id: user_id,
-        school_name: school_name,
-        start_date: start_date,
-        graduation_date: graduation_date,
-        major: major,
+        school_name: "Binus",
+        description: "Kami adalah kampus yang berada di Jakarta & Bandung",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        school_name: "UNPAD",
+        description: "Kampus yang cukup berada di daerah Bandung",
         createdAt: new Date(),
         updatedAt: new Date(),
       },
