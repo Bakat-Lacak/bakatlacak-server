@@ -4,11 +4,7 @@ class EducationController {
   static getAll = async (req, res, next) => {
     try {
      const {id} = req.loggedUser
-      const data = await Education.findAll({
-        include: {
-          model: UserEducation
-        }
-      });
+      const data = await Education.findAll();
 
       res.status(200).json(data)
     } catch (err) {
@@ -18,21 +14,25 @@ class EducationController {
 
   static create = async (req, res, next) => {
     const { id } = req.loggedUser;
-    const { start_date, graduation_date, major, school_name } = req.body;
+    const { school_name, description, start_date, graduation_date, major } = req.body;
     const t = await sequelize.transaction();
     try {
 
       const education = await Education.create({
         school_name,
-        major,
+        description,
       }, {transaction: t})
 
-      await UserEducation.create({
-        start_date,
-        graduation_date,
-        education_id: education.id,
-        user_id: id
-      }, {transaction: t})
+      // const userSchools = await Education.findOne({
+      //   where: education.school_name
+      // })
+      // const newStudent = await UserEducation.create({
+      //   start_date,
+      //   graduation_date,
+      //   education_id: userSchools.id,
+      //   user_id: id,
+      //   major
+      // }, {transaction: t})
 
      await t.commit();
      res.status(201).json(education);
@@ -66,8 +66,8 @@ class EducationController {
 
   static update = async (req, res, next) => {
     const idParams = req.params.id
-    const {id} = re.loggedUser
-    const { school_name, start_date, graduation_date, major } = req.body;
+    const {id} = req.loggedUser
+    const { school_name, description } = req.body;
     const t = await sequelize.transaction();
     try {
      const foundEducation = await Education.findOne({
@@ -80,25 +80,28 @@ class EducationController {
      
       await foundEducation.update ({
         school_name: school_name || foundEducation.school_name,
-        major: major || foundEducation.major
+        description: description || foundEducation.description
       }, {transaction: t})
     
-      if(!start_date || graduation_date){
+      // if(!start_date || graduation_date){
 
-        const foundUserEducation = await UserEducation.findOne({
-          where: {
-            user_id: id,
-            education_id: foundEducation.id
-          }
-        })
+      //   const foundUserEducation = await UserEducation.findOne({
+      //     where: {
+      //       user_id: id,
+      //       education_id: foundEducation.id
+      //     }
+      //   })
 
-        await foundUserEducation.update({
-          start_date: start_date || foundUserEducation.start_date,
-          graduation_date: graduation_date || foundUserEducation.graduation_date
-        }, {transaction: t})
-      }
+      //   await foundUserEducation.update({
+      //     user_id: user_id || foundUserEducation.user_id,
+      //     start_date: start_date || foundUserEducation.start_date,
+      //     education_id: education_id || foundUserEducation.education_id,
+      //     major: major || foundUserEducation.major,
+      //     graduation_date: graduation_date || foundUserEducation.graduation_date
+      //   }, {transaction: t})
+      // }
       await t.commit();
-      res.status(201).json({message: "Updated Education Successfully"});
+      res.status(201).json({foundEducation, message: "Education Hasbeen Updated"});
     } catch (err) {
       await t.rollback();
       next(err);
@@ -108,7 +111,7 @@ class EducationController {
   static delete = async (req, res, next) => {
     const { id } = req.params;
     try {
-      const experience = await Education.findByPk(id);
+      const education = await Education.findByPk(id);
 
       if (!education) {
         return res.status(404).json({ message: "Not Found" });

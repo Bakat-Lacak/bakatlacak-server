@@ -4,11 +4,7 @@ class ExperienceController {
   static getAll = async (req, res, next) => {
     try {
       const { id } = req.loggedUser;
-      const data = await Experience.findAll({
-        where: {
-          user_id: id,
-        },
-      });
+      const data = await Experience.findAll();
       res.status(200).json(data);
     } catch (err) {
       next(err);
