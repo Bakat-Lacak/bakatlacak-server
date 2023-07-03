@@ -40,13 +40,13 @@ class ExperienceController {
     try {
       const data = await Experience.create({
         user_id: id,
-        department: "Fullstack",
-        position: "FrontEnd",
-        industry: "Consultant",
-        salary: 70000,
-        end_date: Date(),
-        description: "test",
-        country: "Indonesia",
+        department,
+        position,
+        industry,
+        salary,
+        end_date,
+        description,
+        country,
       });
       res.status(201).json(data);
     } catch (err) {
