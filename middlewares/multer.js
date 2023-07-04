@@ -25,10 +25,21 @@ const imageStorage = multer.diskStorage({
     }
 });
 
+const resumeStorage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, path.join(__dirname, "../public/resume"));
+  },
+  filename: function (req, file, cb) {
+    cb(null, "resume-" + Date.now() + path.extname(file.originalname));
+  },
+});
+
 const documentsUpload = multer({ storage: documentsStorage });
 const imageUpload = multer({ storage: imageStorage });
+const resumeUpload = multer({ storage: resumeStorage });
 
 module.exports = {
-    documentsUpload,
-    imageUpload
+  documentsUpload,
+  imageUpload,
+  resumeUpload,
 };
