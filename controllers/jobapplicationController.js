@@ -4,7 +4,7 @@ const path = require("path");
 class JobApplicationController {
   static async createJobApplication(req, res, next) {
     try {
-      const { joblisting_id } = req.body;
+      const { job_listing_id } = req.body;
       const { id } = req.loggedUser;
 
       const resumeFile = req.files.resume[0];
@@ -18,13 +18,13 @@ class JobApplicationController {
         resumeFilePath = resumeFile.path;
         relativeResumeFilePath = path.relative(process.cwd(), resumeFilePath);
         resumeFileLink = relativeResumeFilePath.replace(/\\/g, "/");
-        resumeStaticLink = APP_HOSTNAME + resumeFileLink;
+        resumeStaticLink = resumeFileLink;
       }
 
       const jobapplication = await JobApplication.create({
         user_id: id,
-        joblisting_id: joblisting_id,
-        status: "ON REVIEW",
+        job_listing_id: job_listing_id,
+        status: "onreview",
         ...(resumeFileLink !== undefined && { resume: resumeStaticLink }),
       });
 
