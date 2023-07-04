@@ -1,4 +1,4 @@
-const { JobApplication } = require("../models");
+const { JobApplication, sequelize } = require("../models");
 const path = require("path");
 
 class JobApplicationController {
@@ -24,7 +24,7 @@ class JobApplicationController {
       const jobapplication = await JobApplication.create({
         user_id: id,
         job_listing_id: job_listing_id,
-        status: "onreview",
+        status: "applied",
         ...(resumeFileLink !== undefined && { resume: resumeStaticLink }),
       });
 
@@ -33,6 +33,28 @@ class JobApplicationController {
       next(err);
     }
   }
+
+  static async updateJobApplication( req, res, next ) {
+    try {
+      const status = req.query
+      const jobId = req.params.id 
+
+      const application = await JobApplication.findOne({
+        where: { id: jobId }
+      })
+
+      if (!application) {
+        throw { name: "ErrorNotFound"}
+      }
+
+      await JobApplication.update(status);
+
+      res.status(200).json(application)
+    } catch (err) {
+      next(err)
+    }
+  }
+
 }
 
 module.exports = JobApplicationController;

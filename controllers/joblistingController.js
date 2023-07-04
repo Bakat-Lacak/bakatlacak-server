@@ -147,7 +147,11 @@ class JobListingController {
           {
             model: CompanyProfile,
             include: {model: User}
+          },
+          {
+            model: JobApplication
           }
+
         ]
       })
 

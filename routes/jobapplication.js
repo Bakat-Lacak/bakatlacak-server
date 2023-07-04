@@ -9,5 +9,6 @@ router.post("/", authorization(["user"]), documentsUpload.fields([
   { name: 'resume', maxCount: 1 },
 ]), JobApplicationController.createJobApplication);
 
+router.put("/", authorization(["recruiter"]), JobApplicationController.updateJobApplication)
 
 module.exports = router;
