@@ -32,23 +32,39 @@ class ExperienceController {
       next(err);
     }
   };
- 
 
   static create = async (req, res, next) => {
     const { id } = req.loggedUser;
-    const { department, position, industry, salary, end_date, description, country } = req.body;
+    const { 
+      company, 
+      department,
+      position,
+      industry,
+      salary,
+      start_date,
+      end_date,
+      description,
+      country,
+      state,
+      city
+    } = req.body;
+
     try {
       const data = await Experience.create({
         user_id: id,
-        department: "Fullstack",
-        position: "FrontEnd",
-        industry: "Consultant",
-        salary: 70000,
-        end_date: Date(),
-        description: "test",
-        country: "Indonesia",
+        company,
+        department,
+        position,
+        industry,
+        salary,
+        start_date,
+        end_date,
+        description,
+        country,
+        state,
+        city
       });
-      res.status(201).json(data);
+      res.status(201).json({message: "Experience added", data});
     } catch (err) {
       next(err);
     }
@@ -56,25 +72,42 @@ class ExperienceController {
 
   static update = async (req, res, next) => {
     const { id } = req.params;
-    const { department, position, industry, salary, end_date, description, country } = req.body;
+    const { 
+      company, 
+      department,
+      position,
+      industry,
+      salary,
+      start_date,
+      end_date,
+      description,
+      country,
+      state,
+      city
+    } = req.body;
+
     try {
       const experience = await Experience.findByPk(id);
 
       if (!experience) {
-        return res.status(404).json({ message: "Pengalaman tidak ditemukan" });
+        throw { name: "ErrorNotFound" };
       }
 
       const updatedExperience = await experience.update({
+        company: company || experience.company,
         department: department || experience.department,
         position: position || experience.position,
         industry: industry || experience.industry,
         salary: salary || experience.salary,
+        start_date: start_date || experience.start_date,
         end_date: end_date || experience.end_date,
         description: description || experience.description,
         country: country || experience.country,
+        state: state || experience.state,
+        city: city || experience.city
       });
 
-      res.status(200).json(updatedExperience);
+      res.status(200).json({message: "Experience updated", updatedExperience});
     } catch (err) {
       next(err);
     }
@@ -86,7 +119,7 @@ class ExperienceController {
       const experience = await Experience.findByPk(id);
 
       if (!experience) {
-        return res.status(404).json({ message: "Pengalaman tidak ditemukan" });
+        throw { name: "ErrorNotFound" };
       }
 
       await Experience.destroy({
@@ -95,7 +128,7 @@ class ExperienceController {
         },
       });
 
-      res.status(200).json({ message: "Experience berhasil dihapus" });
+      res.status(200).json({ message: "Experience deleted" });
     } catch (err) {
       next(err);
     }
