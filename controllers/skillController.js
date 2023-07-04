@@ -1,7 +1,6 @@
 const { Skill, UserSkill } = require("../models");
 
 class SkillController {
-
   static async getAllSkills(req, res, next) {
     try {
       const skills = await Skill.findAll();
@@ -9,7 +8,7 @@ class SkillController {
     } catch (err) {
       next(err);
     }
-  };
+  }
 
   static async getSkillById(req, res, next) {
     try {
@@ -17,43 +16,67 @@ class SkillController {
       const skill = await Skill.findByPk(skillId);
 
       if (!skill) {
-        throw { name: "ErrorNotFound" }
+        throw { name: "ErrorNotFound" };
       }
       res.status(200).json(skill);
     } catch (err) {
       next(err);
     }
-  };
+  }
 
-  static async addSkill(req, res, next) {
+  static async addUserSkill(req, res, next) {
+    // BANYAK
     try {
       const { id } = req.loggedUser;
-      const { skill_id } = req.body;
+      const { skill_ids } = req.body;
 
-      const skill = await Skill.findOne(
-        {
+      for (let i = 0; i < skill_ids.length; i++) {
+        const currentSkillId = skill_ids[i];
+
+        const skillItem = await Skill.findOne({
           where: {
-            id: skill_id
-          }
+            id: currentSkillId,
+          },
         });
 
-        if (!skill) {
-          throw { name: "ErrorNotFound" }
+        if (!skillItem) {
+          throw { name: "ErrorNotFound" };
         }
 
         await UserSkill.create({
           user_id: id,
-          skill_id
+          skill_ids: skillItem.id,
         });
+      }
 
-        res.status(200).json({ message: "Skill added successfully" })
+      res.status(200).json({ message: "Skill added successfully" });
+
+      // SATU - SATU
+      // const { id } = req.loggedUser;
+      // const { skill_id } = req.body;
+
+      // const skill = await Skill.findOne({
+      //   where: {
+      //     id: skill_id,
+      //   },
+      // });
+
+      // if (!skill) {
+      //   throw { name: "ErrorNotFound" };
+      // }
+
+      // await UserSkill.create({
+      //   user_id: id,
+      //   skill_id,
+      // });
+
+      // res.status(200).json({ message: "Skill added successfully" });
     } catch (err) {
       next(err);
     }
-  };
+  }
 
   static async createSkill(req, res, next) {
-    const { id } = req.loggedUser;
     const { name, level } = req.body;
 
     try {
@@ -62,23 +85,18 @@ class SkillController {
         level,
       });
 
-      await UserSkill.create({
-        user_id: id,
-        skill_id: skill.id
-      });
-
       res.status(200).json(skill);
     } catch (err) {
       next(err);
     }
-  };
+  }
 
   static async updateSkill(req, res, next) {
     const { id } = req.params;
     const { name, level } = req.body;
 
     try {
-      const skill = await Skill.findByPk(id)
+      const skill = await Skill.findByPk(id);
       if (!skill) {
         throw { name: "ErrorNotFound" };
       }
@@ -90,7 +108,7 @@ class SkillController {
         },
         {
           where: {
-            id
+            id,
           },
           returning: true,
         }
@@ -99,7 +117,7 @@ class SkillController {
     } catch (err) {
       next(err);
     }
-  };
+  }
 
   static async deleteSkill(req, res, next) {
     const { id } = req.params;
@@ -114,7 +132,7 @@ class SkillController {
     } catch (err) {
       next(err);
     }
-  };
+  }
 }
 
-module.exports = SkillController
+module.exports = SkillController;
