@@ -1,5 +1,6 @@
 const { JobApplication, sequelize } = require("../models");
 const path = require("path");
+const jobapplication = require("../models/jobapplication");
 
 class JobApplicationController {
   static async createJobApplication(req, res, next) {
@@ -36,20 +37,23 @@ class JobApplicationController {
 
   static async updateJobApplication( req, res, next ) {
     try {
-      const status = req.query
+      const statusNew = req.query.status
       const jobId = req.params.id 
 
-      const application = await JobApplication.findOne({
-        where: { id: jobId }
-      })
+      const application = await JobApplication.findOne({where: {id : jobId}})
 
       if (!application) {
         throw { name: "ErrorNotFound"}
       }
 
-      await JobApplication.update(status);
+      await JobApplication.update({
+        user_id : application.user_id,
+        job_listing_id: application.job_listing_id,
+        status: statusNew,
+        resume: application.resume
+    }, {where : {id: jobId}})
 
-      res.status(200).json(application)
+      res.status(201).json({message: "Update success"})
     } catch (err) {
       next(err)
     }
