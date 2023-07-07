@@ -50,7 +50,7 @@ module.exports = {
         updatedAt: new Date()
       },
       {
-        title: "Full-stack Web Developer",
+        title: "Full-stack Web Dev",
         description: "Menguasai front-end dan back-end dengan baik",
         company_id: companyAccount2.id,
         location: "Jakarta",
@@ -60,7 +60,7 @@ module.exports = {
         updatedAt: new Date()
       },
       {
-        title: "Data Analyst",
+        title: "Junior Data Analyst",
         description: "Menguasai dasar Python dan dapat bekerja sama dalam tekanan",
         company_id: companyAccount2.id,
         location: "Jakarta",
@@ -70,7 +70,7 @@ module.exports = {
         updatedAt: new Date()
       },
       {
-        title: "UI/UX Designer",
+        title: "UI Designer",
         description: "Dapat bekerja dalam tekanan dan menggambar dengan penuh hati",
         company_id: companyAccount2.id,
         location: "Sumedang",
@@ -80,7 +80,7 @@ module.exports = {
         updatedAt: new Date()
       },
       {
-        title: "Full-stack Web Developer",
+        title: "Junior Full-stack",
         description: "Menguasai front-end dan back-end dengan baik",
         company_id: companyAccount3.id,
         location: "Jakarta",
@@ -90,7 +90,7 @@ module.exports = {
         updatedAt: new Date()
       },
       {
-        title: "Data Analyst",
+        title: "Senior Data Analyst",
         description: "Menguasai dasar Python dan dapat bekerja sama dalam tekanan",
         company_id: companyAccount3.id,
         location: "Jakarta",
@@ -100,7 +100,7 @@ module.exports = {
         updatedAt: new Date()
       },
       {
-        title: "UI/UX Designer",
+        title: "UX Designer",
         description: "Dapat bekerja dalam tekanan dan menggambar dengan penuh hati",
         company_id: companyAccount3.id,
         location: "Sumedang",
