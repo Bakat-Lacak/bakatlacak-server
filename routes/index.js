@@ -9,6 +9,7 @@ const educationRouter = require("./education");
 const companyProfileRouter = require("./companyprofile");
 const typeRouter = require("./type");
 const skillRouter = require("./skill");
+const jobApplicationRouter = require("./jobapplication");
 const { authentication, authorization } = require("../middlewares/auth");
 
 router.use("/api/auth", authRouter);
@@ -17,6 +18,7 @@ router.use("/api/users", userRouter);
 router.use("/api/experiences", experienceRouter);
 router.use("/api/user-profiles", userprofileRouter);
 router.use("/api/job_listing", jobListingRouter);
+router.use("/api/job_application", jobApplicationRouter);
 
 // router.use(authorization(["admin", "user", "recruiter"])); // BELOW HERE AUTHORIZATION ROUTES
 router.use("/api/users", userRouter);

@@ -96,6 +96,42 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date()
       },
+      {
+        name: 'Basic Design',
+        level: 'beginner',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        name: 'Basic Design',
+        level: 'advance',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        name: 'Basic Design',
+        level: 'expert',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        name: 'Python',
+        level: 'beginner',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        name: 'Python',
+        level: 'advance',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        name: 'Python',
+        level: 'expert',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
 
     ], {returning: true})
 

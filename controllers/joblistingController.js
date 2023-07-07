@@ -148,6 +148,7 @@ class JobListingController {
             model: CompanyProfile,
             include: {model: User}
           }
+
         ]
       })
 
@@ -255,7 +256,6 @@ class JobListingController {
       const idParam = req.params.id;
 
       const jobListing = await JobListing.findByPk(idParam);
-
       if (!jobListing) {
         throw { name: "ErrorNotFound" };
       }
