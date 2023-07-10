@@ -45,6 +45,7 @@ class UserController {
         throw { name: "InvalidCredential" };
       }
       const accessToken = signToken({
+        id: user.id,
         email: user.email,
         first_name: user.first_name,
         last_name: user.last_name,
@@ -53,6 +54,7 @@ class UserController {
       });
       
       res.status(200).json({
+        id: user.id,
         access_token: accessToken,
         email: user.email,
         role: user.role
