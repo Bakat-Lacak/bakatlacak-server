@@ -8,34 +8,32 @@ class JobListingController {
       const where = {};
 
       //JOIN TABLES
-      let joinJobSkill = {
-        model: JobSkill,
-        required: true
-      }
 
       let joinSkill = {
-        model: Skill,
-        required: true
+        model: Skill
       }
       
       let joinCompanyProfile = {
-        model: CompanyProfile,
-        required: true
+        model: CompanyProfile
       }
       
       let joinType = {
-        model: Type,
-        required: true
+        model: Type
       }
+
+      const include = [
+        joinCompanyProfile
+      ]
 
       //Filter by company
       if (company_id) {
         where.company_id = company_id
       }
+      
 
       //Filter by search query
       if (q) {
-
+        include.push(joinSkill)
         where[Op.or] = [
           {
             title: {
@@ -67,6 +65,7 @@ class JobListingController {
             [Op.in]: skill_ids
           }
         }
+        include.push(joinSkill)
       }
 
       // Filter by types
@@ -76,6 +75,7 @@ class JobListingController {
             [Op.in]: type_ids
           }
         }
+        include.push(joinType)
       }
 
       // Filter by salary start
@@ -92,12 +92,6 @@ class JobListingController {
         }
       }
 
-      const include = [
-        joinJobSkill,
-        joinCompanyProfile,
-        joinType,
-        joinSkill
-      ]
 
       const DEFAULT_PAGE = 1;
       const DEFAULT_LIMIT = 10;
