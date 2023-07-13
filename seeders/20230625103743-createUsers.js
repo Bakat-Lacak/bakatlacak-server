@@ -15,6 +15,7 @@ module.exports = {
         birth_date: new Date("2005-08-09"),
         gender: "male",
         role: "user",
+        address: "SUMMARECON GEDEBAGE BANDUNG",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -27,6 +28,7 @@ module.exports = {
         birth_date: new Date("2005-08-09"),
         gender: 'male',
         role: 'recruiter',
+        address: "SUMMARECON BEKASI",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -39,6 +41,7 @@ module.exports = {
         birth_date: new Date("2005-08-09"),
         gender: 'male',
         role: 'admin',
+        address: "SUMMARECON JAKARTA",
         createdAt: new Date(),
         updatedAt: new Date()
       }
