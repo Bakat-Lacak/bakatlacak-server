@@ -14,6 +14,7 @@ class UserController {
         birth_date,
         gender,
         role,
+        address
       } = req.body;
       const user = await User.create({
         email,
@@ -24,6 +25,7 @@ class UserController {
         birth_date,
         gender,
         role,
+        address
       });
       res.status(201).json(user);
       // console.log(user)
@@ -100,7 +102,8 @@ class UserController {
         phone_number,
         birth_date,
         gender,
-        role
+        role,
+        address
       } = req.body;
       
       const user = await User.findByPk(userId);
@@ -116,6 +119,7 @@ class UserController {
       user.birth_date = birth_date;
       user.gender = gender;
       user.role = role;
+      user.address = address
 
       await user.save();
 

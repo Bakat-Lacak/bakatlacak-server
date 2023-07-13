@@ -81,6 +81,7 @@ module.exports = (sequelize, DataTypes) => {
           isIn: [["user", "admin", "recruiter"]],
         },
       },
+      address: DataTypes.STRING
     },
     {
       hooks: {
