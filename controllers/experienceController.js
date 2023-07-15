@@ -33,6 +33,23 @@ class ExperienceController {
     }
   };
 
+  static getByUserId = async (req,res,next) => {
+    try {
+      const { id } = req.loggedUser
+      const experience = await Experience.findAll({
+        where: {user_id: id}
+      })
+
+      if (!experience) {
+        throw { name: "ErrorNotFound" };
+      }
+
+      res.status(200).json(experience);
+    } catch(err) {
+      next(err)
+    }
+  }
+
   static create = async (req, res, next) => {
     const { id } = req.loggedUser;
     const { 
