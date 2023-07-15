@@ -19,7 +19,8 @@ module.exports = (sequelize, DataTypes) => {
     resume: DataTypes.STRING,
     portofolio: DataTypes.STRING,
     about_me: DataTypes.STRING,
-    salary_expectation: DataTypes.INTEGER
+    salary_expectation: DataTypes.INTEGER,
+    photo: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'UserProfile',
