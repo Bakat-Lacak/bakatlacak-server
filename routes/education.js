@@ -3,6 +3,7 @@ const router = express.Router();
 const EducationController = require("../controllers/educationController");
 
 router.get("/", EducationController.getAll);
+router.get("/me", EducationController.getByUserId)
 router.post("/", EducationController.create);
 router.get("/:id", EducationController.getById);
 router.put("/:id", EducationController.update);

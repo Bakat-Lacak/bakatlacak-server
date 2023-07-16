@@ -9,20 +9,33 @@ module.exports = {
       email: "user@mail.com"
     }})
 
-    const educationSite = await Education.findOne({where: {
-      school_name: "Binus"
+    const ipb = await Education.findOne({where: {
+      school_name: "IPB University"
+    }})
+
+    const itb = await Education.findOne({where: {
+      school_name: "Institut Teknologi Bandung"
     }})
 
     await queryInterface.bulkInsert('UserEducations', [
       {
           user_id: userAccount.id,
-          education_id: educationSite.id,
+          education_id: ipb.id,
           start_date: "2010-05-05",
           graduation_date: "2014-05-05",
           major: "Informasi Teknologi",
           createdAt: new Date(),
           updatedAt: new Date(),
-      }
+      },
+      {
+        user_id: userAccount.id,
+        education_id: itb.id,
+        start_date: "2014-05-05",
+        graduation_date: "2015-05-05",
+        major: "Informasi Teknologi",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+    },
     ])
     /**
      * Add seed commands here.

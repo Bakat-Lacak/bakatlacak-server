@@ -3,7 +3,6 @@ const { Education, UserEducation, sequelize, User } = require("../models");
 class EducationController {
   static getAll = async (req, res, next) => {
     try {
-     const {id} = req.loggedUser
       const data = await Education.findAll();
 
       res.status(200).json(data)
@@ -12,16 +11,30 @@ class EducationController {
     }
   };
 
+  static getByUserId = async (req,res,next) => {
+    try {
+      const { id } = req.loggedUser
+      const data = await UserEducation.findAll({
+        where: {user_id: id},
+        include: {
+          model: Education
+        }
+      })
+
+      res.status(200).json(data)
+    } catch(err) {
+      next(err)
+    }
+  }
+
   static create = async (req, res, next) => {
-    const { id } = req.loggedUser;
-    const { school_name, description, start_date, graduation_date, major } = req.body;
-    const t = await sequelize.transaction();
+    const { school_name, description } = req.body;
     try {
 
       const education = await Education.create({
         school_name,
         description,
-      }, {transaction: t})
+      },)
 
       // const userSchools = await Education.findOne({
       //   where: education.school_name
@@ -33,11 +46,8 @@ class EducationController {
       //   user_id: id,
       //   major
       // }, {transaction: t})
-
-     await t.commit();
      res.status(201).json(education);
     } catch (err) {
-      await t.rollback();
       next(err);
     }
   };
