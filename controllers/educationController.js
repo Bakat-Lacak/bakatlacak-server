@@ -59,14 +59,6 @@ class EducationController {
         })
         res.status(200).json({usereduc,findSchool})
       }
-
-      const usereduc = await UserEducation.create({
-        user_id: id,
-        education_id: nullSchool.id || newSchool.id
-        
-      
-      })
-      res.status(200).json(usereduc)
     } catch(err) {
       next(err)
     }
