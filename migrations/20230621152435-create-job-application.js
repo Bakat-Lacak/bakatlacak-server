@@ -18,7 +18,7 @@ module.exports = {
         onUpdate:"CASCADE",
         onDelete:"CASCADE",
       },
-      joblisting_id: {
+      job_listing_id: {
         type: Sequelize.INTEGER,
         references: {
           model:"JobListings",

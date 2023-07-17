@@ -17,7 +17,7 @@ module.exports = {
     await queryInterface.bulkInsert('JobApplications', [
       {
         user_id: userAccount.id,
-        joblisting_id: jobList.id,
+        job_listing_id: jobList.id,
         status: 'applied',
         resume: "link:resume",
         createdAt: new Date(),

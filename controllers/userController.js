@@ -14,6 +14,7 @@ class UserController {
         birth_date,
         gender,
         role,
+        address
       } = req.body;
       const user = await User.create({
         email,
@@ -24,6 +25,7 @@ class UserController {
         birth_date,
         gender,
         role,
+        address
       });
       res.status(201).json(user);
       // console.log(user)
@@ -45,6 +47,7 @@ class UserController {
         throw { name: "InvalidCredential" };
       }
       const accessToken = signToken({
+        id: user.id,
         email: user.email,
         first_name: user.first_name,
         last_name: user.last_name,
@@ -53,6 +56,7 @@ class UserController {
       });
       
       res.status(200).json({
+        id: user.id,
         access_token: accessToken,
         email: user.email,
         role: user.role
@@ -98,7 +102,8 @@ class UserController {
         phone_number,
         birth_date,
         gender,
-        role
+        role,
+        address
       } = req.body;
       
       const user = await User.findByPk(userId);
@@ -114,6 +119,7 @@ class UserController {
       user.birth_date = birth_date;
       user.gender = gender;
       user.role = role;
+      user.address = address
 
       await user.save();
 

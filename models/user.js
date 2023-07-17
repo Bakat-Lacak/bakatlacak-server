@@ -73,7 +73,6 @@ module.exports = (sequelize, DataTypes) => {
           isIn: [["male", "female"]],
         },
       },
-      photo: DataTypes.STRING,
       role: {
         type: DataTypes.STRING,
         validate: {
@@ -81,6 +80,7 @@ module.exports = (sequelize, DataTypes) => {
           isIn: [["user", "admin", "recruiter"]],
         },
       },
+      address: DataTypes.STRING
     },
     {
       hooks: {
