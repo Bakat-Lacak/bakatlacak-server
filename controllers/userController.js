@@ -78,6 +78,7 @@ class UserController {
       next(err)
     }
   }
+
   static async getByID(req, res, next) {
     try {
       const userId = req.params.id;
@@ -88,6 +89,47 @@ class UserController {
       res.status(200).json(user);
     } catch (err) {
       next(err);
+    }
+  }
+
+  static async updateMe (req,res,next) {
+    try {
+      const { id } = req.loggedUser
+      const {
+        email,
+        password,
+        first_name,
+        last_name,
+        phone_number,
+        birth_date,
+        gender,
+        role,
+        address
+      } = req.body;
+
+      const user = await User.findByPk(id)
+      if (!user) {
+        throw {name: "Forbidden"}
+      }
+
+      const newData = await User.update({
+        email,
+        password,
+        first_name,
+        last_name,
+        phone_number,
+        birth_date,
+        gender,
+        role,
+        address
+      },
+      {where: { id: id },
+      individualHooks: true},
+      )
+
+      res.status(200).json({message: "Data user updated!", newData})
+    } catch(err) {
+      next(err)
     }
   }
 
