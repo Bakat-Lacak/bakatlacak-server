@@ -27,6 +27,51 @@ class EducationController {
     }
   }
 
+  static createUserEducation = async (req,res,next) => {
+    try {
+      const { id } = req.loggedUser
+      const { school_name , major, start_date, graduation_date } = req.body
+
+      const findSchool = await Education.findOne({
+        where: { school_name: school_name }
+      })
+
+      if (!findSchool) {
+        const newSchool = await Education.create({
+          school_name
+        })
+
+        const usereduc = await UserEducation.create({
+          user_id: id,
+          education_id: newSchool.id,
+          major,
+          start_date,
+          graduation_date
+        })
+        res.status(200).json({usereduc, newSchool})
+      } else {
+        const usereduc = await UserEducation.create({
+          user_id: id,
+          education_id: findSchool.id,
+          major,
+          start_date,
+          graduation_date
+        })
+        res.status(200).json({usereduc,findSchool})
+      }
+
+      const usereduc = await UserEducation.create({
+        user_id: id,
+        education_id: nullSchool.id || newSchool.id
+        
+      
+      })
+      res.status(200).json(usereduc)
+    } catch(err) {
+      next(err)
+    }
+  }
+
   static create = async (req, res, next) => {
     const { school_name, description } = req.body;
     try {
