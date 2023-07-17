@@ -278,9 +278,9 @@ class JobListingController {
         throw { name: "ErrorNotFound" };
       }
 
-      if (id !== jobListing.user_id) {
-        throw { name: "Forbidden" };
-      }
+      // if (id !== jobListing.user_id) {
+      //   throw { name: "Forbidden" };
+      // }
 
       await jobListing.update(
         {
@@ -359,9 +359,9 @@ class JobListingController {
         throw { name: "ErrorNotFound" };
       }
 
-      if (id !== jobListing.user_id) {
-        throw { name: "Forbidden" };
-      }
+      // if (id !== jobListing.user_id) {
+      //   throw { name: "Forbidden" };
+      // }
 
       await jobListing.destroy();
 
