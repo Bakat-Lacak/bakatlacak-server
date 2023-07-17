@@ -2,7 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("Education", {
+    await queryInterface.createTable("UserSkills", {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -18,17 +18,20 @@ module.exports = {
         onUpdate: "CASCADE",
         onDelete: "CASCADE",
       },
-      school_name: {
-        type: Sequelize.STRING,
+      skill_id: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: "Skills",
+          key: "id",
+        },
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
       },
       start_date: {
         type: Sequelize.DATE,
       },
       graduation_date: {
         type: Sequelize.DATE,
-      },
-      major: {
-        type: Sequelize.STRING,
       },
       createdAt: {
         allowNull: false,
@@ -41,6 +44,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("Education");
+    await queryInterface.dropTable("UserSkills");
   },
 };

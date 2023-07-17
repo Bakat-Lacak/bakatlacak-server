@@ -10,6 +10,8 @@ function errorHandler(err, req, res, next) {
         res.status(404).json({message: "User not found"})
     } else if (err.name === "ErrorAlreadyExist") {
         res.status(409).json({message: "Data already exist"})
+    } else if (err.name === "Forbidden") {
+        res.status(403).json({ message: "Forbidden access this route" });
     }
 
     

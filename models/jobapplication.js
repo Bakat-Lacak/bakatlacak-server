@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   JobApplication.init({
     user_id: DataTypes.INTEGER,
-    joblisting_id: DataTypes.INTEGER,
+    job_listing_id: DataTypes.INTEGER,
     status: {
       type: DataTypes.STRING,
       validate: {
