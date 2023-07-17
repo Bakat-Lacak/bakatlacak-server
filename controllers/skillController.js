@@ -41,7 +41,6 @@ class SkillController {
   }
 
   static async addUserSkill(req, res, next) {
-    // BANYAK
     try {
       const { id } = req.loggedUser
       const { name, level } = req.body
@@ -68,6 +67,49 @@ class SkillController {
         })
         res.status(200).json({userSkill,findSkill})
       }
+
+    // BANYAK
+      // for (let i = 0; i < skill_ids.length; i++) {
+      //   const currentSkillId = skill_ids[i];
+
+      //   const skillItem = await Skill.findOne({
+      //     where: {
+      //       id: currentSkillId,
+      //     },
+      //   });
+
+      //   if (!skillItem) {
+      //     throw { name: "ErrorNotFound" };
+      //   }
+
+      //   await UserSkill.create({
+      //     user_id: id,
+      //     skill_ids: skillItem.id,
+      //   });
+      // }
+
+      // res.status(200).json({ message: "Skill added successfully" });
+
+      // SATU - SATU
+      // const { id } = req.loggedUser;
+      // const { skill_id } = req.body;
+
+      // const skill = await Skill.findOne({
+      //   where: {
+      //     id: skill_id,
+      //   },
+      // });
+
+      // if (!skill) {
+      //   throw { name: "ErrorNotFound" };
+      // }
+
+      // await UserSkill.create({
+      //   user_id: id,
+      //   skill_id,
+      // });
+
+      // res.status(200).json({ message: "Skill added successfully" });
     } catch (err) {
       next(err);
     }
