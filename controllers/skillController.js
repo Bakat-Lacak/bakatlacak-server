@@ -24,53 +24,50 @@ class SkillController {
     }
   }
 
+  static async getSkillByUserId (req,res,next) {
+    try {
+      const { id } = req.loggedUser
+      const allSkills = await UserSkill.findAll({
+        where: { user_id: id },
+        include: {
+          model: Skill
+        }
+      })
+
+      res.status(200).json(allSkills)
+    } catch(err) {
+      next(err)
+    }
+  }
+
   static async addUserSkill(req, res, next) {
     // BANYAK
     try {
-      const { id } = req.loggedUser;
-      const { skill_ids } = req.body;
+      const { id } = req.loggedUser
+      const { name, level } = req.body
 
-      for (let i = 0; i < skill_ids.length; i++) {
-        const currentSkillId = skill_ids[i];
+      const findSkill = await Skill.findOne({
+        where: { name: name, level: level }
+      })
 
-        const skillItem = await Skill.findOne({
-          where: {
-            id: currentSkillId,
-          },
-        });
+      if (!findSkill) {
+        const newSkill = await Skill.create({
+          name: name,
+          level: level
+        })
 
-        if (!skillItem) {
-          throw { name: "ErrorNotFound" };
-        }
-
-        await UserSkill.create({
+        const userSkill = await UserSkill.create({
           user_id: id,
-          skill_ids: skillItem.id,
-        });
+          skill_id: newSkill.id
+        })
+        res.status(200).json({userSkill, newSkill})
+      } else {
+        const userSkill = await UserSkill.create({
+          user_id: id,
+          skill_id: findSkill.id
+        })
+        res.status(200).json({userSkill,findSkill})
       }
-
-      res.status(200).json({ message: "Skill added successfully" });
-
-      // SATU - SATU
-      // const { id } = req.loggedUser;
-      // const { skill_id } = req.body;
-
-      // const skill = await Skill.findOne({
-      //   where: {
-      //     id: skill_id,
-      //   },
-      // });
-
-      // if (!skill) {
-      //   throw { name: "ErrorNotFound" };
-      // }
-
-      // await UserSkill.create({
-      //   user_id: id,
-      //   skill_id,
-      // });
-
-      // res.status(200).json({ message: "Skill added successfully" });
     } catch (err) {
       next(err);
     }
