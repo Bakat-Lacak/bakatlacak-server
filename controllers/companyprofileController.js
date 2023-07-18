@@ -1,4 +1,10 @@
 const { CompanyProfile, UserCompany, User, sequelize } = require("../models");
+const path = require("path");
+const fs = require("fs");
+const APP_HOSTNAME =
+  process.env.APP_HOST + ":" + process.env.PORT + "/" ||
+  "http://localhost:7000";
+const app_path = path.resolve(__dirname, "../");
 
 class CompanyProfileController {
   static getAll = async (req, res, next) => {
@@ -36,6 +42,23 @@ class CompanyProfileController {
     const { id } = req.loggedUser;
     const { name, field, description, location, total_employee } = req.body;
 
+    const imageFile = req.files.image[0];
+
+    let imageFilePath;
+
+    let relativeImageFilePath;
+
+    let imageFileLink;
+
+    let imageStaticLink;
+
+    if (imageFile !== undefined) {
+      imageFilePath = imageFile.path;
+      relativeImageFilePath = path.relative(process.cwd(), imageFilePath);
+      imageFileLink = relativeImageFilePath.replace(/\\/g, "/");
+      imageStaticLink = APP_HOSTNAME + imageFileLink;
+    }
+
     const t = await sequelize.transaction();
     try {
       const company = await CompanyProfile.create(
@@ -45,6 +68,9 @@ class CompanyProfileController {
           description,
           location,
           total_employee,
+          ...(imageFileLink !== undefined && {
+            photo: imageStaticLink,
+          }),
         },
         { transaction: t }
       );
@@ -61,7 +87,7 @@ class CompanyProfileController {
 
       res.status(200).json(company);
     } catch (err) {
-      await t.rollback()
+      await t.rollback();
       next(err);
     }
   };
@@ -72,6 +98,27 @@ class CompanyProfileController {
 
     const { name, field, description, location, total_employee } = req.body;
 
+     const imageFile = req.files.image[0];
+
+     let imageFilePath;
+
+     let relativeImageFilePath;
+
+     let imageFileLink;
+
+     let imageStaticLink;
+
+      if (imageFile !== undefined) {
+        imageFilePath = imageFile.path;
+        relativeImageFilePath = path.relative(
+          process.cwd(),
+          imageFilePath
+        );
+        imageFileLink = relativeImageFilePath.replace(/\\/g, "/");
+        imageStaticLink = APP_HOSTNAME + imageFileLink;
+      }
+    
+
     try {
       const company = await CompanyProfile.findOne({
         where: {
@@ -81,6 +128,14 @@ class CompanyProfileController {
           model: User,
         },
       });
+
+        if (company.photo !== null && imageFileLink !== undefined) {
+          let fullUrl = company.photo;
+          let baseUrl = APP_HOSTNAME;
+          let fileUrl = `/${fullUrl.split(baseUrl)[1]}`;
+          let projectUrl = fileUrl.replace(/\\/g, "/");
+          fs.unlinkSync(app_path + projectUrl);
+        }
 
       if (!company) {
         throw { name: "ErrorNotFound" };
@@ -97,6 +152,7 @@ class CompanyProfileController {
           company.description = description;
           company.location = location;
           company.total_employee = total_employee;
+          company.photo = (imageFileLink !== undefined && imageStaticLink),
           await company.save();
           res.status(200).json(company);
           break;

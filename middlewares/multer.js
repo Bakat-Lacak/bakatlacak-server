@@ -21,7 +21,9 @@ const imageStorage = multer.diskStorage({
         cb(null, path.join(__dirname, '../public/images'));
     },
     filename: function(req, file, cb){
-        cb(null, 'image-' + Date.now() + path.extname(file.originalname));
+         if (file.fieldname === "image") {
+           cb(null, "image-" + Date.now() + path.extname(file.originalname));
+         }
     }
 });
 
