@@ -117,7 +117,7 @@ class CompanyProfileController {
       }
       await company.destroy();
       res.status(200).json({ message: `${company.name} has been deleted` });
-    } catch (error) {
+    } catch (err) {
       console.error(err);
       next(err);
     }
