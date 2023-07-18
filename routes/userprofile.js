@@ -26,9 +26,10 @@ router.post(
 
 router.put(
   "/:user_id",
-  documentsUpload.fields([
+  documentsImageUpload.fields([
     { name: "resume", maxCount: 1 },
     { name: "portofolio", maxCount: 1 },
+    { name: "image", maxCount: 1 },
   ]),
   UserProfileController.updateUserProfile,
   errorHandler

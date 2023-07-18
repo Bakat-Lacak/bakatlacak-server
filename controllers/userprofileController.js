@@ -130,15 +130,23 @@ class UserProfileController {
       // const file = req.file;
       const resumeFile = req.files.resume[0];
       const portofolioFile = req.files.portofolio[0];
+      const imageFile = req.files.image[0];
 
       let resumeFilePath;
       let portofolioFilePath;
+      let imageFilePath;
+
       let relativeResumeFilePath;
       let relativePortofolioFilePath;
+      let relativeImageFilePath;
+
       let resumeFileLink;
       let portofolioFileLink;
+      let imageFileLink;
+
       let resumeStaticLink;
       let portofolioStaticLink;
+      let imageStaticLink;
 
       if (resumeFile !== undefined) {
         resumeFilePath = resumeFile.path;
@@ -155,6 +163,16 @@ class UserProfileController {
         );
         portofolioFileLink = relativePortofolioFilePath.replace(/\\/g, "/");
         portofolioStaticLink = APP_HOSTNAME + portofolioFileLink;
+      }
+
+      if (imageFile !== undefined) {
+        imageFilePath = imageFile.path;
+        relativeImageFilePath = path.relative(
+          process.cwd(),
+          imageFilePath
+        );
+        imageFileLink = relativeImageFilePath.replace(/\\/g, "/");
+        imageStaticLink = APP_HOSTNAME + imageFileLink;
       }
 
       // check if resume or portofolio from query is not empty
@@ -179,11 +197,22 @@ class UserProfileController {
         fs.unlinkSync(app_path + projectUrl);
       }
 
+      if (user.photo !== null && imageFileLink !== undefined) {
+        let fullUrl = user.photo;
+        let baseUrl = APP_HOSTNAME;
+        let fileUrl = `/${fullUrl.split(baseUrl)[1]}`;
+        let projectUrl = fileUrl.replace(/\\/g, "/");
+
+        fs.unlinkSync(app_path + projectUrl);
+      }
+
       const userprofile = await UserProfile.update(
         {
           ...(resumeFileLink !== undefined && { resume: resumeStaticLink }),
+          ...(imageFileLink !== undefined && { photo: imageStaticLink }),
           ...(portofolioFileLink !== undefined && {
             portofolio: portofolioStaticLink,
+            
           }),
           about_me,
           salary_expectation,
