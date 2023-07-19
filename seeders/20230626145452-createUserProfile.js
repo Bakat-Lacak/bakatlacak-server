@@ -16,18 +16,18 @@ module.exports = {
     await queryInterface.bulkInsert('UserProfiles', [
       {
         user_id: userAccount.id,
-        resume: 'link:resume',
-        portofolio: 'link:portofolio',
-        about_me: "Im the next full-stack web developer",
+        resume: 'https://katapopuler.com/wp-content/uploads/2020/11/dummy.png',
+        portofolio: 'https://katapopuler.com/wp-content/uploads/2020/11/dummy.png',
+        about_me: "Antusias dan penuh semangat",
         salary_expectation: 8000000,
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
         user_id: recruiterAccount.id,
-        resume: 'link:resume',
-        portofolio: 'link:portofolio',
-        about_me: "Im the next project manager",
+        resume: 'https://katapopuler.com/wp-content/uploads/2020/11/dummy.png',
+        portofolio: 'https://katapopuler.com/wp-content/uploads/2020/11/dummy.png',
+        about_me: "Energic, work-a-holic and honesty",
         salary_expectation: 8000000,
         createdAt: new Date(),
         updatedAt: new Date()

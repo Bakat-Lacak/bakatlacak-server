@@ -7,135 +7,153 @@ module.exports = {
   async up (queryInterface, Sequelize) {
     let skills = await queryInterface.bulkInsert('Skills',[
       {
-        name: 'PostgreSQL',
-        level: 'beginner',
-        createdAt: new Date(),
-        updatedAt: new Date()
-      },
-      {
-        name: 'PostgreSQL',
+        name: 'Database', // 0
         level: 'advance',
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
-        name: 'PostgreSQL',
-        level: 'expert',
-        createdAt: new Date(),
-        updatedAt: new Date()
-      },
-      {
-        name: 'CSS',
-        level: 'beginner',
-        createdAt: new Date(),
-        updatedAt: new Date()
-      },
-      {
-        name: 'CSS',
+        name: 'HTML', // 1
         level: 'advance',
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
-        name: 'CSS',
-        level: 'expert',
-        createdAt: new Date(),
-        updatedAt: new Date()
-      },
-      {
-        name: 'HTML',
-        level: 'beginner',
-        createdAt: new Date(),
-        updatedAt: new Date()
-      },
-      {
-        name: 'HTML',
+        name: 'CSS', // 2
         level: 'advance',
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
-        name: 'HTML',
-        level: 'expert',
-        createdAt: new Date(),
-        updatedAt: new Date()
-      },
-      {
-        name: 'React',
-        level: 'beginner',
-        createdAt: new Date(),
-        updatedAt: new Date()
-      },
-      {
-        name: 'React',
+        name: 'React', // 3
         level: 'advance',
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
-        name: 'React',
-        level: 'expert',
-        createdAt: new Date(),
-        updatedAt: new Date()
-      },
-      {
-        name: 'Communication',
-        level: 'beginner',
-        createdAt: new Date(),
-        updatedAt: new Date()
-      },
-      {
-        name: 'Communication',
+        name: 'Golang', // 4
         level: 'advance',
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
-        name: 'Communication',
-        level: 'expert',
-        createdAt: new Date(),
-        updatedAt: new Date()
-      },
-      {
-        name: 'Basic Design',
-        level: 'beginner',
-        createdAt: new Date(),
-        updatedAt: new Date()
-      },
-      {
-        name: 'Basic Design',
+        name: 'Managerial', // 5
         level: 'advance',
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
-        name: 'Basic Design',
-        level: 'expert',
-        createdAt: new Date(),
-        updatedAt: new Date()
-      },
-      {
-        name: 'Python',
-        level: 'beginner',
-        createdAt: new Date(),
-        updatedAt: new Date()
-      },
-      {
-        name: 'Python',
+        name: 'Design', // 6
         level: 'advance',
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
-        name: 'Python',
-        level: 'expert',
+        name: 'Python', // 7
+        level: 'advance',
         createdAt: new Date(),
         updatedAt: new Date()
       },
+      {
+        name: 'Figma', // 8
+        level: 'Advance',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        name: 'Algorithm', // 9
+        level: 'advance',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        name: 'Sketch', // 10
+        level: 'advance',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        name: 'Public Speaking', // 11
+        level: 'advance',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        name: 'Communication', // 12
+        level: 'beginner',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        name: 'Leadership', // 13
+        level: 'advance',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        name: 'Fashionable', // 14
+        level: 'advance',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        name: 'Sales', // 15
+        level: 'advance',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        name: 'Market Trend', // 16
+        level: 'advance',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        name: 'Organization', // 17
+        level: 'advance',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        name: 'Marketing', // 18
+        level: 'advance',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        name: 'Product Knowledge', // 19
+        level: 'advance',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        name: 'Problem Solving', // 20
+        level: 'advance',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        name: 'Grooming', // 21
+        level: 'advance',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        name: 'Driving', // 22
+        level: 'advance',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        name: 'Good physical ability', // 23
+        level: 'advance',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      }
 
     ], {returning: true})
-
-    skills = [skills[1],skills[3],skills[8],skills[9],skills[14]]
+// 0 1 2 3 9 12
+    skills = [skills[0],skills[1],skills[2],skills[3],skills[9],skills[12]]
 
     const userAccount = await User.findOne({where: {
       email: "user@mail.com"
