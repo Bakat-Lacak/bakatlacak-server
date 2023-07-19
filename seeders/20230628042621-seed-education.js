@@ -34,6 +34,24 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
+      {
+        school_name: "SMK 4 Negeri Bandung",
+        description: "KUAT MA'RIFAT: KONSISTEN, ULET, AGAMIS, TERAMPIL, MA'RIFAT",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        school_name: "SMP Alfa Centauri",
+        description: "Finest School in The World yang artinya ingin mewujudkan sekolah terbaik dalam mengakomodasi peserta didik dalam mengembangkan dan mengoptimalkan potensi, kecerdasan, kepribadian dan kemandirian untuk masa depan di era globalisasi.",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        school_name: "SD Taruna Bakti",
+        description: "Berdiri sejak tahun 1956 dan sampai sekarang masih tetap konsisten dalam membentuk peserta didik menjadi pribadi yang berprestasi, cerdas, terampil, sopan, santun, jujur, dan ramah.",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
     ]);
   },
 

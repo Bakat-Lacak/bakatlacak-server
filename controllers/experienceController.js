@@ -19,8 +19,8 @@ class ExperienceController {
           id: experienceId,
         },
         include: {
-          model: User
-        }
+          model: User,
+        },
       });
 
       if (!experience) {
@@ -33,27 +33,27 @@ class ExperienceController {
     }
   };
 
-  static getByUserId = async (req,res,next) => {
+  static getByUserId = async (req, res, next) => {
     try {
-      const { id } = req.loggedUser
+      const { id } = req.loggedUser;
       const experience = await Experience.findAll({
-        where: {user_id: id}
-      })
+        where: { user_id: id },
+      });
 
       if (!experience) {
         throw { name: "ErrorNotFound" };
       }
 
       res.status(200).json(experience);
-    } catch(err) {
-      next(err)
+    } catch (err) {
+      next(err);
     }
-  }
+  };
 
   static create = async (req, res, next) => {
     const { id } = req.loggedUser;
-    const { 
-      company, 
+    const {
+      company,
       department,
       position,
       industry,
@@ -63,7 +63,7 @@ class ExperienceController {
       description,
       country,
       state,
-      city
+      city,
     } = req.body;
 
     try {
@@ -79,31 +79,30 @@ class ExperienceController {
         description,
         country,
         state,
-        city
+        city,
       });
-      res.status(201).json({message: "Experience added", data});
+      res.status(201).json({ message: "Experience added", data });
     } catch (err) {
       next(err);
     }
   };
 
   static update = async (req, res, next) => {
-    const { id } = req.params;
-    const { 
-      company, 
-      department,
-      position,
-      industry,
-      salary,
-      start_date,
-      end_date,
-      description,
-      country,
-      state,
-      city
-    } = req.body;
-
     try {
+      const {
+        id,
+        company,
+        department,
+        position,
+        industry,
+        salary,
+        start_date,
+        end_date,
+        description,
+        country,
+        state,
+        city,
+      } = req.body;
       const experience = await Experience.findByPk(id);
 
       if (!experience) {
@@ -121,18 +120,20 @@ class ExperienceController {
         description: description || experience.description,
         country: country || experience.country,
         state: state || experience.state,
-        city: city || experience.city
+        city: city || experience.city,
       });
 
-      res.status(200).json({message: "Experience updated", updatedExperience});
+      res
+        .status(200)
+        .json({ message: "Experience updated", updatedExperience });
     } catch (err) {
       next(err);
     }
   };
 
   static delete = async (req, res, next) => {
-    const { id } = req.params;
     try {
+      const { id } = req.body;
       const experience = await Experience.findByPk(id);
 
       if (!experience) {
