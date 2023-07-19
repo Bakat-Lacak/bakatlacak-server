@@ -172,6 +172,19 @@ class SkillController {
       next(err);
     }
   }
+
+  static async deleteUserSkill(req, res, next) {
+    try {
+      const { id } = req.body;
+
+      const removeSkill = await UserSkill.destroy({
+        where: { skill_id: id }
+      });
+      res.status(200).json({message: "Skill deleted", removeSkill});
+    } catch (err) {
+      next(err);
+    }
+  }
 }
 
 module.exports = SkillController;
