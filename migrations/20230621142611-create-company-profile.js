@@ -21,6 +21,9 @@ module.exports = {
       location: {
         type: Sequelize.STRING
       },
+      photo: {
+        type: Sequelize.STRING
+      },
       total_employee: {
         type: Sequelize.INTEGER
       },

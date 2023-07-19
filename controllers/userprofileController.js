@@ -118,10 +118,13 @@ class UserProfileController {
 
             let resumeFilePath;
             let portofolioFilePath;
+
             let relativeResumeFilePath;
             let relativePortofolioFilePath;
+
             let resumeFileLink;
             let portofolioFileLink;
+            
             let resumeStaticLink;
             let portofolioStaticLink;
 

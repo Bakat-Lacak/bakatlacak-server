@@ -9,6 +9,7 @@ module.exports = {
         field: "E-commerce",
         description: "Belanja hanya di Tokopedia",
         location: "Jakarta",
+        photo: "image.jpg",
         total_employee: 500,
         createdAt: new Date(),
         updatedAt: new Date()
@@ -18,6 +19,7 @@ module.exports = {
         field: "Clothing Apparel",
         description: "Mengikuti trend jaman now",
         location: "Bandung",
+        photo: "image.jpg",
         total_employee: 150,
         createdAt: new Date(),
         updatedAt: new Date()
@@ -27,6 +29,7 @@ module.exports = {
         field: "Academy",
         description: "Belajar cepat, cepat kerja",
         location: "Yogyakarta",
+        photo: "image.jpg",
         total_employee: 50,
         createdAt: new Date(),
         updatedAt: new Date()

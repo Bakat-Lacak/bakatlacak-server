@@ -16,35 +16,44 @@ module.exports = (sequelize, DataTypes) => {
       CompanyProfile.belongsToMany(models.User,{foreignKey: "company_id", through: models.UserCompany})
     }
   }
-  CompanyProfile.init({
-    name: {
-      type: DataTypes.STRING,
-      validate: {
-        notEmpty: true,
-      }
+  CompanyProfile.init(
+    {
+      name: {
+        type: DataTypes.STRING,
+        validate: {
+          notEmpty: true,
+        },
+      },
+      field: {
+        type: DataTypes.STRING,
+        validate: {
+          notEmpty: true,
+        },
+      },
+      description: {
+        type: DataTypes.STRING,
+        validate: {
+          notEmpty: true,
+        },
+      },
+      location: {
+        type: DataTypes.STRING,
+        validate: {
+          notEmpty: true,
+        },
+      },
+      photo: {
+        type: DataTypes.STRING,
+        validate: {
+          notEmpty: true,
+        },
+      },
+      total_employee: DataTypes.INTEGER,
     },
-    field: {
-      type: DataTypes.STRING,
-      validate: {
-        notEmpty: true,
-      }
-    },
-    description: {
-      type: DataTypes.STRING,
-      validate: {
-        notEmpty: true,
-      }
-    },
-    location: {
-      type: DataTypes.STRING,
-      validate: {
-        notEmpty: true,
-      }
-    },
-    total_employee: DataTypes.INTEGER
-  }, {
-    sequelize,
-    modelName: 'CompanyProfile',
-  });
+    {
+      sequelize,
+      modelName: "CompanyProfile",
+    }
+  );
   return CompanyProfile;
 };
