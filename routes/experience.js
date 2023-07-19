@@ -6,7 +6,7 @@ router.get("/", ExperienceController.getAll);
 router.get("/me", ExperienceController.getByUserId);
 router.get("/:id", ExperienceController.getById);
 router.post("/", ExperienceController.create);
-router.put("/:id", ExperienceController.update);
-router.delete("/:id", ExperienceController.delete);
+router.put("/update", ExperienceController.update);
+router.delete("/delete", ExperienceController.delete);
 
 module.exports = router;
