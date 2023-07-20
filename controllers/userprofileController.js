@@ -97,7 +97,7 @@ class UserProfileController {
 
     static async updateUserProfile(req, res, next) {
         try {
-            const user_id = req.params.user_id;
+            const user_id = req.loggedUser
 
             const user = await UserProfile.findOne({
                 where: {
@@ -112,20 +112,18 @@ class UserProfileController {
                 salary_expectation
             } = req.body;
 
-            // const file = req.file;
-            const resumeFile = req.files.resume[0];
-            const portofolioFile = req.files.portofolio[0];
-
             let resumeFilePath;
-            let portofolioFilePath;
             let relativeResumeFilePath;
-            let relativePortofolioFilePath;
             let resumeFileLink;
-            let portofolioFileLink;
             let resumeStaticLink;
+
+            let portofolioFilePath;
+            let relativePortofolioFilePath;
+            let portofolioFileLink;
             let portofolioStaticLink;
 
             if(resumeFile !== undefined){
+                resumeFile = req.files.resume[0]
                 resumeFilePath = resumeFile.path;
                 relativeResumeFilePath = path.relative(process.cwd(), resumeFilePath);
                 resumeFileLink = relativeResumeFilePath.replace(/\\/g, '/');
@@ -133,6 +131,7 @@ class UserProfileController {
             }
             
             if(portofolioFile !== undefined){
+                portofolioFile = req.files.portofolio[0]
                 portofolioFilePath = portofolioFile.path;
                 relativePortofolioFilePath = path.relative(process.cwd(), portofolioFilePath);
                 portofolioFileLink = relativePortofolioFilePath.replace(/\\/g, '/');
