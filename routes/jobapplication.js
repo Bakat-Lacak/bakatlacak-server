@@ -10,6 +10,7 @@ router.get(
   authorization(["user"]),
   JobApplicationController.getAllByUserId
 );
+
 router.post(
   "/",
   authorization(["user"]),

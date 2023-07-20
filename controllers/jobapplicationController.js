@@ -1,4 +1,9 @@
-const { JobApplication, sequelize } = require("../models");
+const {
+  JobApplication,
+  sequelize,
+  JobListing,
+  CompanyProfile,
+} = require("../models");
 const path = require("path");
 const jobapplication = require("../models/jobapplication");
 
@@ -8,7 +13,12 @@ class JobApplicationController {
       const { id } = req.loggedUser;
       const jobApplications = await JobApplication.findAll({
         where: { user_id: id },
-        include: [{ job_listing_id: job_listing_id }],
+        include: {
+          model: JobListing,
+        },
+      });
+      const companyProfile = await JobListing.findAll({
+        where: { company_id: JobApplication.JobListing.company_id },
       });
       res.status(201).json(jobApplications);
     } catch (err) {
