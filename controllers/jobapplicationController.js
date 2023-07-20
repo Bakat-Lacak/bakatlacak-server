@@ -11,15 +11,21 @@ class JobApplicationController {
   static async getAllByUserId(req, res, next) {
     try {
       const { id } = req.loggedUser;
-      const jobApplications = await JobApplication.findAll({
-        where: { user_id: id },
-        include: {
-          model: JobListing,
-        },
+      const jobApplications = await JobListing.findAll({
+        include: [
+          {
+            model: JobApplication,
+            where: { user_id: id }
+          },
+          {
+            model: CompanyProfile
+          }
+
+        ]
       });
-      const companyProfile = await JobListing.findAll({
-        where: { company_id: JobApplication.JobListing.company_id },
-      });
+      
+
+
       res.status(201).json(jobApplications);
     } catch (err) {
       next(err);
