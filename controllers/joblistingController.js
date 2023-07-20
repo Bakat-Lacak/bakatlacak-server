@@ -182,6 +182,7 @@ class JobListingController {
         location,
         salary_start,
         salary_end,
+        limit_date,
         skill_attributes,
         type_attributes,
       } = req.body;
@@ -197,6 +198,7 @@ class JobListingController {
           location,
           salary_start,
           salary_end,
+          limit_date
         },
         { transaction: t }
       );
@@ -266,6 +268,7 @@ class JobListingController {
         location,
         salary_start,
         salary_end,
+        limit_date,
         type_attributes,
         skill_attributes,
       } = req.body;
@@ -291,6 +294,7 @@ class JobListingController {
           location,
           salary_start,
           salary_end,
+          limit_date
         },
         { transaction: t }
       );
