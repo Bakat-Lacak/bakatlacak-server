@@ -16,6 +16,7 @@ module.exports = {
         location: "Jakarta",
         salary_start: 5000000,
         salary_end: 6000000,
+        limit_date: "2023-08-08",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -26,6 +27,7 @@ module.exports = {
         location: "Bandung",
         salary_start: 5000000,
         salary_end: 6000000,
+        limit_date: "2023-08-08",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -36,6 +38,7 @@ module.exports = {
         location: "Jakarta",
         salary_start: 8000000,
         salary_end: 9000000,
+        limit_date: "2023-08-08",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -46,6 +49,7 @@ module.exports = {
         location: "Cirebon",
         salary_start: 6000000,
         salary_end: 7000000,
+        limit_date: "2023-08-08",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -56,6 +60,7 @@ module.exports = {
         location: "Jakarta",
         salary_start: 5000000,
         salary_end: 7000000,
+        limit_date: "2023-08-08",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -66,6 +71,7 @@ module.exports = {
         location: "Sukabumi",
         salary_start: 8000000,
         salary_end: 9000000,
+        limit_date: "2023-08-08",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -76,6 +82,7 @@ module.exports = {
         location: "Jakarta",
         salary_start: 6000000,
         salary_end: 9000000,
+        limit_date: "2023-08-08",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -86,6 +93,7 @@ module.exports = {
         location: "Bali",
         salary_start: 5000000,
         salary_end: 7000000,
+        limit_date: "2023-08-08",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -96,6 +104,7 @@ module.exports = {
         location: "Jakarta",
         salary_start: 8000000,
         salary_end: 9000000,
+        limit_date: "2023-08-08",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -106,6 +115,7 @@ module.exports = {
         location: "Surabaya",
         salary_start: 10000000,
         salary_end: 13000000,
+        limit_date: "2023-08-08",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -116,6 +126,7 @@ module.exports = {
         location: "Malang",
         salary_start: 11000000,
         salary_end: 13000000,
+        limit_date: "2023-08-08",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -126,6 +137,7 @@ module.exports = {
         location: "Jakarta",
         salary_start: 5000000,
         salary_end: 6000000,
+        limit_date: "2023-08-08",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -136,6 +148,7 @@ module.exports = {
         location: "Medan",
         salary_start: 5000000,
         salary_end: 6000000,
+        limit_date: "2023-08-08",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -146,6 +159,7 @@ module.exports = {
         location: "Pontianak",
         salary_start: 6000000,
         salary_end: 6500000,
+        limit_date: "2023-08-08",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -156,6 +170,7 @@ module.exports = {
         location: "Pontianak",
         salary_start: 4000000,
         salary_end: 500000,
+        limit_date: "2023-08-08",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -166,6 +181,7 @@ module.exports = {
         location: "Bandung",
         salary_start: 9000000,
         salary_end: 1500000,
+        limit_date: "2023-08-08",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -176,6 +192,7 @@ module.exports = {
         location: "Jakarta",
         salary_start: 7000000,
         salary_end: 800000,
+        limit_date: "2023-08-08",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -186,6 +203,7 @@ module.exports = {
         location: "Pangandaran",
         salary_start: 8000000,
         salary_end: 900000,
+        limit_date: "2023-08-08",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -196,6 +214,7 @@ module.exports = {
         location: "Jakarta",
         salary_start: 4500000,
         salary_end: 5000000,
+        limit_date: "2023-08-08",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -206,6 +225,7 @@ module.exports = {
         location: "Manado",
         salary_start: 6000000,
         salary_end: 7000000,
+        limit_date: "2023-08-08",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -216,6 +236,7 @@ module.exports = {
         location: "Palembang",
         salary_start: 6000000,
         salary_end: 7000000,
+        limit_date: "2023-08-08",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -226,6 +247,7 @@ module.exports = {
         location: "Jakarta",
         salary_start: 5000000,
         salary_end: 5000000,
+        limit_date: "2023-08-08",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -236,6 +258,7 @@ module.exports = {
         location: "Bandung",
         salary_start: 6000000,
         salary_end: 7000000,
+        limit_date: "2023-08-08",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -246,6 +269,7 @@ module.exports = {
         location: "Malang",
         salary_start: 6000000,
         salary_end: 7000000,
+        limit_date: "2023-08-08",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -256,6 +280,7 @@ module.exports = {
         location: "Bandung",
         salary_start: 6000000,
         salary_end: 7000000,
+        limit_date: "2023-08-08",
         createdAt: new Date(),
         updatedAt: new Date()
       },

@@ -1,5 +1,6 @@
 "use strict";
 const { Model } = require("sequelize");
+const { Sequelize } = require(".");
 module.exports = (sequelize, DataTypes) => {
   class JobListing extends Model {
     /**
@@ -48,6 +49,7 @@ module.exports = (sequelize, DataTypes) => {
       location: DataTypes.STRING,
       salary_start: DataTypes.INTEGER,
       salary_end: DataTypes.INTEGER,
+      limit_date: DataTypes.DATE
     },
     {
       sequelize,
