@@ -38,15 +38,12 @@ class UserProfileController {
 
     static async createUserProfile(req, res, next) {
         try {
+            const { id } = req.loggedUser
+            console.log(APP_HOSTNAME,"<<<<<<<<<<<<<<<<<<<<<")
             const { 
-                user_id,
                 about_me,
                 salary_expectation
             } = req.body;
-
-            // const file = req.file;
-            const resumeFile = req.files.resume[0];
-            const portofolioFile = req.files.portofolio[0];
 
             let resumeFilePath;
             let portofolioFilePath;
@@ -57,7 +54,11 @@ class UserProfileController {
             let resumeStaticLink;
             let portofolioStaticLink;
 
+            let resumeFile = req.files.resume;
+            let portofolioFile = req.files.portofolio;
+
             if(resumeFile !== undefined){
+                resumeFile = req.files.resume[0];
                 resumeFilePath = resumeFile.path;
                 relativeResumeFilePath = path.relative(process.cwd(), resumeFilePath);
                 resumeFileLink = relativeResumeFilePath.replace(/\\/g, '/');
@@ -65,6 +66,7 @@ class UserProfileController {
             }
 
             if(portofolioFile !== undefined){
+                portofolioFile = req.files.portofolio[0];
                 portofolioFilePath = portofolioFile.path;
                 relativePortofolioFilePath = path.relative(process.cwd(), portofolioFilePath);
                 portofolioFileLink = relativePortofolioFilePath.replace(/\\/g, '/');
@@ -73,7 +75,7 @@ class UserProfileController {
 
             const profileExist = await UserProfile.findOne({
                 where: {
-                    user_id
+                    user_id: id
                 }
             });
 
@@ -82,7 +84,7 @@ class UserProfileController {
             }
 
             const userprofile = await UserProfile.create({
-                user_id,
+                user_id: id,
                 ...(resumeFileLink !== undefined && { resume: resumeStaticLink }),
                 ...(portofolioFileLink !== undefined && { portofolio: portofolioStaticLink }),
                 about_me,
@@ -113,8 +115,8 @@ class UserProfileController {
             } = req.body;
 
             // const file = req.file;
-            const resumeFile = req.files.resume[0];
-            const portofolioFile = req.files.portofolio[0];
+            let resumeFile = req.files.resume;
+            let portofolioFile = req.files.portofolio;
 
             let resumeFilePath;
             let portofolioFilePath;
@@ -126,6 +128,7 @@ class UserProfileController {
             let portofolioStaticLink;
 
             if(resumeFile !== undefined){
+                resumeFile = req.files.resume[0];
                 resumeFilePath = resumeFile.path;
                 relativeResumeFilePath = path.relative(process.cwd(), resumeFilePath);
                 resumeFileLink = relativeResumeFilePath.replace(/\\/g, '/');
@@ -133,6 +136,7 @@ class UserProfileController {
             }
             
             if(portofolioFile !== undefined){
+                portofolioFile = req.files.portofolio[0];
                 portofolioFilePath = portofolioFile.path;
                 relativePortofolioFilePath = path.relative(process.cwd(), portofolioFilePath);
                 portofolioFileLink = relativePortofolioFilePath.replace(/\\/g, '/');
