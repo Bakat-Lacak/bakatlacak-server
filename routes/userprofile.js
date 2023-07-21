@@ -13,7 +13,7 @@ router.post("/", documentsUpload.fields([
   { name: 'portofolio', maxCount: 1 }
 ]), UserProfileController.createUserProfile, errorHandler);
 
-router.put("/update", documentsUpload.fields([
+router.put("/:user_id", documentsUpload.fields([
   { name: 'resume', maxCount: 1 },
   { name: 'portofolio', maxCount: 1 }
 ]), UserProfileController.updateUserProfile, errorHandler);

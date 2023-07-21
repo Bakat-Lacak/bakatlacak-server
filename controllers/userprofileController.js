@@ -95,7 +95,7 @@ class UserProfileController {
 
     static async updateUserProfile(req, res, next) {
         try {
-            const user_id = req.loggedUser
+            const user_id = req.params.user_id;
 
             const user = await UserProfile.findOne({
                 where: {
@@ -109,6 +109,10 @@ class UserProfileController {
                 about_me,
                 salary_expectation
             } = req.body;
+
+            // const file = req.file;
+            let resumeFile = req.files.resume;
+            let portofolioFile = req.files.portofolio;
 
             let resumeFilePath;
             let portofolioFilePath;
