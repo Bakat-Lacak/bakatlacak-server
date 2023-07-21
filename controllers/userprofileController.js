@@ -38,7 +38,8 @@ class UserProfileController {
 
     static async createUserProfile(req, res, next) {
         try {
-            const { user_id } = req.loggedUser
+            const { id } = req.loggedUser
+            console.log(APP_HOSTNAME,"<<<<<<<<<<<<<<<<<<<<<")
             const { 
                 about_me,
                 salary_expectation
@@ -52,6 +53,9 @@ class UserProfileController {
             let portofolioFileLink;
             let resumeStaticLink;
             let portofolioStaticLink;
+
+            let resumeFile = req.files.resume;
+            let portofolioFile = req.files.portofolio;
 
             if(resumeFile !== undefined){
                 resumeFile = req.files.resume[0];
@@ -71,7 +75,7 @@ class UserProfileController {
 
             const profileExist = await UserProfile.findOne({
                 where: {
-                    user_id
+                    user_id: id
                 }
             });
 
@@ -80,7 +84,7 @@ class UserProfileController {
             }
 
             const userprofile = await UserProfile.create({
-                user_id,
+                user_id: id,
                 ...(resumeFileLink !== undefined && { resume: resumeStaticLink }),
                 ...(portofolioFileLink !== undefined && { portofolio: portofolioStaticLink }),
                 about_me,
