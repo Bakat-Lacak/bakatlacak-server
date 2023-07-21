@@ -23,8 +23,6 @@ class JobApplicationController {
 
         ]
       });
-      
-
 
       res.status(201).json(jobApplications);
     } catch (err) {
