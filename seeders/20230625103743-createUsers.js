@@ -69,9 +69,9 @@ module.exports = {
         role: 'admin',
         address: "SUMMARECON JAKARTA",
         createdAt: new Date(),
-        updatedAt: new Date()
-      }
-    ])
+        updatedAt: new Date(),
+      },
+    ]);
     /**
      * Add seed commands here.
      *
