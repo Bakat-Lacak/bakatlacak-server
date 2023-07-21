@@ -16,9 +16,9 @@ router.use("/api/auth", authRouter);
 router.use(authentication); // BELOW HERE AUTHENTICATED ROUTES
 router.use("/api/users", userRouter);
 router.use("/api/experiences", experienceRouter);
+router.use("/api/job_application", jobApplicationRouter);
 router.use("/api/user-profiles", userprofileRouter);
 router.use("/api/job_listing", jobListingRouter);
-router.use("/api/job_application", jobApplicationRouter);
 
 // router.use(authorization(["admin", "user", "recruiter"])); // BELOW HERE AUTHORIZATION ROUTES
 router.use("/api/users", userRouter);
