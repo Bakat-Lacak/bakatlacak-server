@@ -103,7 +103,7 @@ class UserProfileController {
 
             const user = await UserProfile.findOne({
                 where: {
-                    id
+                    user_id: id
                 }
             });
 
@@ -172,7 +172,7 @@ class UserProfileController {
                 salary_expectation
             }, {
                 where: {
-                    id
+                    user_id: id
                 }
             });
 
@@ -182,7 +182,7 @@ class UserProfileController {
 
             const updatedUserProfile = await UserProfile.findOne({
                 where: {
-                    id
+                    user_id: id
                 }
             });
 

@@ -6,6 +6,7 @@ const {
   JobType,
   Skill,
   User,
+  UserCompany,
   sequelize,
 } = require("../models");
 const { Op } = require("sequelize");
@@ -174,11 +175,11 @@ class JobListingController {
 
   static async createJobListing(req, res, next) {
     const t = await sequelize.transaction();
+
     try {
       const {
         title,
         description,
-        company_id,
         location,
         salary_start,
         salary_end,
@@ -189,10 +190,16 @@ class JobListingController {
 
       const { id } = req.loggedUser;
 
+      const companyId = await UserCompany.findOne({
+        where: {
+          user_id: id
+        }
+      })
+
       const jobListing = await JobListing.create(
         {
           user_id: id,
-          company_id,
+          company_id: companyId.company_id,
           title,
           description,
           location,
