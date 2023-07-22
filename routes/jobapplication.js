@@ -24,4 +24,10 @@ router.put(
   JobApplicationController.updateJobApplication
 );
 
+router.get(
+  "/allapply",
+  authorization(["recruiter"]),
+  JobApplicationController.getApplicationForRecruiter
+)
+
 module.exports = router;

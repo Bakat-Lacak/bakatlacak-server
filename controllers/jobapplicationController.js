@@ -5,10 +5,9 @@ const {
   CompanyProfile,
 } = require("../models");
 const path = require("path");
-const jobapplication = require("../models/jobapplication");
 
 class JobApplicationController {
-  static async getAllByUserId(req, res, next) {
+  static async getAllByUserId(req, res, next) { //untuk user melihat apply
     try {
       const { id } = req.loggedUser;
       const jobApplications = await JobListing.findAll({
@@ -88,6 +87,25 @@ class JobApplicationController {
       res.status(201).json({ message: "Update success" });
     } catch (err) {
       next(err);
+    }
+  }
+
+  static async getApplicationForRecruiter(req,res,next) {
+    try{
+      const { jobListId } = req.body
+
+      const jobapplication = await JobApplication.findAll({
+        where: {
+          job_listing_id: jobListId
+        },
+        include: {
+          model: JobListing
+        }
+        
+      })
+      res.status(200).json(jobapplication)
+    } catch(err) {
+      next(err)
     }
   }
 }
