@@ -39,7 +39,7 @@ class UserProfileController {
     static async createUserProfile(req, res, next) {
         try {
             const { id } = req.loggedUser
-            console.log(APP_HOSTNAME,"<<<<<<<<<<<<<<<<<<<<<")
+            
             const { 
                 about_me,
                 salary_expectation
