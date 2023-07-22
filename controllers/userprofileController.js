@@ -99,11 +99,11 @@ class UserProfileController {
 
     static async updateUserProfile(req, res, next) {
         try {
-            const user_id = req.params.user_id;
+            const { id } = req.loggedUser
 
             const user = await UserProfile.findOne({
                 where: {
-                    user_id
+                    id
                 }
             });
 
@@ -172,7 +172,7 @@ class UserProfileController {
                 salary_expectation
             }, {
                 where: {
-                    user_id
+                    id
                 }
             });
 
@@ -182,7 +182,7 @@ class UserProfileController {
 
             const updatedUserProfile = await UserProfile.findOne({
                 where: {
-                    user_id
+                    id
                 }
             });
 
