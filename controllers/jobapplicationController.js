@@ -3,12 +3,12 @@ const {
   sequelize,
   JobListing,
   CompanyProfile,
+  UserCompany
 } = require("../models");
 const path = require("path");
-const jobapplication = require("../models/jobapplication");
 
 class JobApplicationController {
-  static async getAllByUserId(req, res, next) {
+  static async getAllByUserId(req, res, next) { //untuk user melihat apply
     try {
       const { id } = req.loggedUser;
       const jobApplications = await JobListing.findAll({
@@ -86,6 +86,44 @@ class JobApplicationController {
       );
 
       res.status(201).json({ message: "Update success" });
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  static async getApplicationForRecruiter(req,res,next) {
+    try{
+      const id = req.params.id
+
+      const jobapplication = await JobApplication.findAll({
+        where: {
+          job_listing_id: id
+        },
+        include: {
+          model: JobListing
+        }
+        
+      })
+      res.status(200).json(jobapplication)
+    } catch(err) {
+      next(err)
+    }
+  }
+
+  static async allAppliedUser(req, res, next) {
+    try {
+      const { id } = req.loggedUser;
+      const findCompany = await UserCompany.findOne({
+        where: { user_id: id },
+      });
+
+      const jobApplications = await JobListing.findAll({
+        where: {
+          company_id: findCompany.company_id,
+        }
+       })
+
+      res.status(201).json(jobApplications);
     } catch (err) {
       next(err);
     }

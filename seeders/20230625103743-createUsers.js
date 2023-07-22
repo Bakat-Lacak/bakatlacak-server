@@ -33,6 +33,19 @@ module.exports = {
         updatedAt: new Date()
       },
       {
+        email: 'user2@mail.com',
+        password: bcrypt.hashSync("user2",salt),
+        first_name: 'Segen',
+        last_name: 'Gandrung',
+        phone_number: '081235678432',
+        birth_date: new Date("2003-08-09"),
+        gender: "male",
+        role: "user",
+        address: "PERMATA UNGU",
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
         email: 'recruiter@mail.com',
         password: bcrypt.hashSync("recruiter",salt),
         first_name: 'Johm',

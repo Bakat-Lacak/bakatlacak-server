@@ -24,4 +24,16 @@ router.put(
   JobApplicationController.updateJobApplication
 );
 
+router.get(
+  "/allapply/:id",
+  authorization(["recruiter"]),
+  JobApplicationController.getApplicationForRecruiter
+)
+
+router.get(
+  "/allapply",
+  authorization(["recruiter"]),
+  JobApplicationController.allAppliedUser
+)
+
 module.exports = router;
