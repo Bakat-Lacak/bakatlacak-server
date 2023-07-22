@@ -12,9 +12,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan("combined"));
 
-app.use("/pdf", express.static(__dirname + "/"))
+app.use("/", express.static(__dirname + "/"))
 app.use(router);
 app.use(errorHandler);
+
 
 app.listen(port, () => {
   console.log(`App is listening on PORT: ${port}`);
