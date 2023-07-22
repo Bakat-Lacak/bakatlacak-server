@@ -4,25 +4,27 @@ const {
   JobListing,
   CompanyProfile,
   UserCompany,
-  User
+  Type,
+  Skill,
+  User,
 } = require("../models");
 const path = require("path");
 
 class JobApplicationController {
-  static async getAllByUserId(req, res, next) { //untuk user melihat apply
+  static async getAllByUserId(req, res, next) {
+    //untuk user melihat apply
     try {
       const { id } = req.loggedUser;
       const jobApplications = await JobListing.findAll({
         include: [
           {
             model: JobApplication,
-            where: { user_id: id }
+            where: { user_id: id },
           },
           {
-            model: CompanyProfile
-          }
-
-        ]
+            model: CompanyProfile,
+          },
+        ],
       });
 
       res.status(201).json(jobApplications);
@@ -92,28 +94,37 @@ class JobApplicationController {
     }
   }
 
-  static async getApplicationForRecruiter(req,res,next) {
-    try{
-      const id = req.params.id
+  static async getApplicationForRecruiter(req, res, next) {
+    try {
+      const id = req.params.id;
 
       const jobapplication = await JobApplication.findAll({
         where: {
-          job_listing_id: id
+          job_listing_id: id,
         },
         include: [
-        {
-          model: User
-        },
-        {
-          model: JobListing
-        }
-      ]
-        
-        
-      })
-      res.status(200).json(jobapplication)
-    } catch(err) {
-      next(err)
+          {
+            model: User,
+          },
+          {
+            model: JobListing,
+            include: [
+              {
+                model: CompanyProfile,
+              },
+              {
+                model: Type,
+              },
+              {
+                model: Skill,
+              },
+            ],
+          },
+        ],
+      });
+      res.status(200).json(jobapplication);
+    } catch (err) {
+      next(err);
     }
   }
 
@@ -130,10 +141,18 @@ class JobApplicationController {
       //   }
       //  })
       const jobApplications = await JobListing.findAll({
-        where :{
-          company_id: findCompany.company_id
-        }
-      })
+        where: {
+          company_id: findCompany.company_id,
+        },
+        include: [
+          {
+            model: JobApplication,
+          },
+          {
+            model: CompanyProfile,
+          },
+        ],
+      });
 
       res.status(201).json(jobApplications);
     } catch (err) {
