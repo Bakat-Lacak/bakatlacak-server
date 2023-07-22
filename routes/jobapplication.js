@@ -25,9 +25,15 @@ router.put(
 );
 
 router.get(
-  "/allapply",
+  "/allapply/:id",
   authorization(["recruiter"]),
   JobApplicationController.getApplicationForRecruiter
+)
+
+router.get(
+  "/allapply",
+  authorization(["recruiter"]),
+  JobApplicationController.allAppliedUser
 )
 
 module.exports = router;
