@@ -3,7 +3,8 @@ const {
   sequelize,
   JobListing,
   CompanyProfile,
-  UserCompany
+  UserCompany,
+  User
 } = require("../models");
 const path = require("path");
 
@@ -99,9 +100,15 @@ class JobApplicationController {
         where: {
           job_listing_id: id
         },
-        include: {
+        include: [
+        {
+          model: User
+        },
+        {
           model: JobListing
         }
+      ]
+        
         
       })
       res.status(200).json(jobapplication)
@@ -117,11 +124,16 @@ class JobApplicationController {
         where: { user_id: id },
       });
 
+      // const jobApplications = await JobListing.findAll({
+      //   where: {
+      //     company_id: findCompany.company_id,
+      //   }
+      //  })
       const jobApplications = await JobListing.findAll({
-        where: {
-          company_id: findCompany.company_id,
+        where :{
+          company_id: findCompany.company_id
         }
-       })
+      })
 
       res.status(201).json(jobApplications);
     } catch (err) {
